@@ -1,0 +1,10 @@
+terraform {
+  cloud {
+
+    organization = "CLOUD901"
+
+    workspaces {
+      name = "cloud901Paas"
+    }
+  }
+}   
