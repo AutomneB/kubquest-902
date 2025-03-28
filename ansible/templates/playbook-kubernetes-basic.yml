@@ -1,0 +1,141 @@
+---
+# Playbook pour configurer les prérequis Kubernetes sur tous les nœuds
+- name: Configuration commune pour tous les nœuds Kubernetes
+  hosts: k8s_nodes
+  become: true
+  vars:
+    container_runtime: containerd
+    kubernetes_version: 1.27.0
+    disable_swap: true
+    enable_iptables_bridge: true
+  
+  tasks:
+    # Désactiver le swap (nécessaire pour Kubernetes)
+    - name: Désactiver le swap immédiatement
+      command: swapoff -a
+      when: disable_swap | bool
+      
+    - name: Désactiver le swap de façon permanente (fstab)
+      replace:
+        path: /etc/fstab
+        regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+        replace: '# \1'
+        backup: yes
+      when: disable_swap | bool
+
+    # Configuration système pour Kubernetes
+    - name: Configurer les modules kernel requis
+      copy:
+        dest: /etc/modules-load.d/k8s.conf
+        content: |
+          overlay
+          br_netfilter
+        mode: 0644
+      
+    - name: Charger les modules kernel
+      modprobe:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - overlay
+        - br_netfilter
+    
+    - name: Configuration sysctl pour Kubernetes
+      copy:
+        dest: /etc/sysctl.d/99-kubernetes-cri.conf
+        content: |
+          net.bridge.bridge-nf-call-iptables = 1
+          net.bridge.bridge-nf-call-ip6tables = 1
+          net.ipv4.ip_forward = 1
+        mode: 0644
+        
+    - name: Appliquer les paramètres sysctl
+      command: sysctl --system
+      
+    # Installation du runtime de conteneur (containerd)
+    - name: Installer les dépendances pour containerd
+      apt:
+        name: 
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: present
+        update_cache: yes
+        
+    - name: Ajouter la clé GPG de Docker
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+        
+    - name: Ajouter le dépôt Docker
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+        
+    - name: Installer containerd
+      apt:
+        name: containerd.io
+        state: present
+        update_cache: yes
+        
+    - name: Créer le répertoire de configuration containerd
+      file:
+        path: /etc/containerd
+        state: directory
+        mode: 0755
+        
+    - name: Générer la configuration par défaut de containerd
+      shell: containerd config default > /etc/containerd/config.toml
+      args:
+        creates: /etc/containerd/config.toml
+        
+    - name: Configuration de containerd pour utiliser systemd cgroup driver
+      replace:
+        path: /etc/containerd/config.toml
+        regexp: 'SystemdCgroup = false'
+        replace: 'SystemdCgroup = true'
+        
+    - name: Redémarrer containerd
+      systemd:
+        name: containerd
+        state: restarted
+        enabled: yes
+        daemon_reload: yes
+        
+    # Installation de Kubernetes
+    - name: Ajouter la clé GPG Kubernetes
+      apt_key:
+        url: https://pkgs.k8s.io/core:/stable:/v1.27/deb/Release.key
+        state: present
+        
+    - name: Ajouter le dépôt Kubernetes
+      apt_repository:
+        repo: "deb [signed-by=/usr/share/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.27/deb/ /"
+        state: present
+        filename: kubernetes.list
+        
+    - name: Installer les paquets Kubernetes
+      apt:
+        name:
+          - kubelet={{ kubernetes_version }}-00
+          - kubeadm={{ kubernetes_version }}-00
+          - kubectl={{ kubernetes_version }}-00
+        state: present
+        update_cache: yes
+        
+    - name: Bloquer les mises à jour automatiques des paquets Kubernetes
+      dpkg_selections:
+        name: "{{ item }}"
+        selection: hold
+      with_items:
+        - kubelet
+        - kubeadm
+        - kubectl
+        
+    - name: Activer kubelet
+      systemd:
+        name: kubelet
+        state: started
+        enabled: yes

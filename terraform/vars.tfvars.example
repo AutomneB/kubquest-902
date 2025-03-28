@@ -1,0 +1,3 @@
+ssh_key_path          = "../ssh-key"
+ansible_playbook_file = "../ansible/playbook-kubernetes-basic"
+ansible_port          = "22"
