@@ -1,0 +1,50 @@
+### 📘 Playbook Ansible : Kubernetes Master Node Setup (master-playbook.yml)
+
+
+
+
+- name: Init Kubernetes Master Node
+  hosts: master
+  become: true
+  tasks:
+    - name: Montrer sur quel hôte on tourne
+      debug:
+        msg: "Ce playbook s'exécute sur {{ inventory_hostname }}"
+
+    - name: Initialiser le cluster Kubernetes
+      command: kubeadm init --pod-network-cidr=10.244.0.0/16
+      register: kubeadm_init
+      args:
+        creates: /etc/kubernetes/admin.conf
+
+    - name: Créer le dossier .kube
+      file:
+        path: /home/adminuser/.kube
+        state: directory
+        owner: "adminuser"
+        group: "adminuser"
+        mode: 0755
+
+    - name: Copier le fichier de configuration kube
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/adminuser/.kube/config
+        remote_src: yes
+        owner: "adminuser"
+        group: "adminuser"
+        mode: 0644
+
+    - name: Appliquer le plugin réseau Flannel
+      become: true
+      become_user: root
+      command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+      environment:
+        KUBECONFIG: /etc/kubernetes/admin.conf
+
+    - name: Générer et afficher la commande kubeadm join
+      command: kubeadm token create --print-join-command
+      register: join_command
+
+    - name: Afficher la commande kubeadm join
+      debug:
+        msg: "{{ join_command.stdout }}"

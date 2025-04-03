@@ -88,8 +88,6 @@
         
     - name: Générer la configuration par défaut de containerd
       shell: containerd config default > /etc/containerd/config.toml
-      args:
-        creates: /etc/containerd/config.toml
         
     - name: Configuration de containerd pour utiliser systemd cgroup driver
       replace:
@@ -103,36 +101,33 @@
         state: restarted
         enabled: yes
         daemon_reload: yes
-        
-    # Installation de Kubernetes
-    - name: Ajouter la clé GPG Kubernetes
-      apt_key:
-        url: https://pkgs.k8s.io/core:/stable:/v1.27/deb/Release.key
-        state: present
-        
-    - name: Ajouter le dépôt Kubernetes
-      apt_repository:
-        repo: "deb [signed-by=/usr/share/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.27/deb/ /"
-        state: present
-        filename: kubernetes.list
-        
-    - name: Installer les paquets Kubernetes
-      apt:
-        name:
-          - kubelet={{ kubernetes_version }}-00
-          - kubeadm={{ kubernetes_version }}-00
-          - kubectl={{ kubernetes_version }}-00
-        state: present
-        update_cache: yes
-        
-    - name: Bloquer les mises à jour automatiques des paquets Kubernetes
-      dpkg_selections:
-        name: "{{ item }}"
-        selection: hold
-      with_items:
-        - kubelet
-        - kubeadm
-        - kubectl
+
+
+    # Installation Kubernetes     
+    - name: Installation de Kubernetes (mode shell)
+      block:
+        - name: Créer les keyrings
+          shell: sudo mkdir -p /etc/apt/keyrings
+
+        - name: Télécharger et convertir la clé GPG Kubernetes
+          shell: |
+            curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | gpg --dearmor | sudo tee /etc/apt/keyrings/kubernetes.gpg > /dev/null
+
+        - name: Ajouter le dépôt Kubernetes
+          shell: |
+            echo "deb [signed-by=/etc/apt/keyrings/kubernetes.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+        - name: Mettre à jour le cache APT
+          shell: sudo apt update
+
+        - name: Installer kubeadm, kubelet et kubectl
+          shell: sudo apt install -y kubelet kubeadm kubectl
+
+        - name: Empêcher leur mise à jour automatique
+          shell: sudo apt-mark hold kubelet kubeadm kubectl
+
+      tags: kubernetes_install_shell
+
         
     - name: Activer kubelet
       systemd:

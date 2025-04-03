@@ -17,6 +17,11 @@ resource "local_file" "ssh_public_key" {
 resource "local_file" "ansible_inventory" {
   filename = "${path.module}/inventory.ini"
   content  = <<EOT
+
+[k8s_nodes:children]
+master
+workers
+
 [master]
 master ansible_host=${azurerm_linux_virtual_machine.master.public_ip_address} ansible_user=${var.instance_username} ansible_ssh_private_key_file=${local_file.ssh_private_key.filename}
 
