@@ -1,0 +1,13 @@
+apiVersion: v2
+name: postgres-chart
+description: A Helm chart for PostgreSQL database
+type: application
+version: 0.1.0
+appVersion: "latest"
+keywords:
+  - postgresql
+  - postgres
+  - database
+  - sql
+maintainers:
+  - name: KubeQuest Teama

@@ -32,22 +32,18 @@ worker${idx + 1} ansible_host=${worker.public_ip_address} ansible_user=${var.ins
 EOT
 }
 
+resource "local_file" "ssh_config_entry_master" {
+  filename = "${pathexpand("~/.ssh/config")}"
+  file_permission = "0600"
 
-resource "ansible_playbook" "playbook" {
-  playbook = var.ansible_playbook_file
-  name     = "k8s_setup"
+  content = <<-EOT
+Host k8s-master
+  HostName ${azurerm_linux_virtual_machine.master.public_ip_address}
+  User ${var.instance_username}
+  IdentityFile ${local_file.ssh_private_key.filename}
+  StrictHostKeyChecking no
+  UserKnownHostsFile=/dev/null
+EOT
 
-  extra_vars = {
-    ansible_ssh_private_key_file = local_file.ssh_private_key.filename
-    ansible_ssh_common_args      = "-o StrictHostKeyChecking=no"
-    ansible_user                 = var.instance_username
-    ansible_port                 = var.ansible_port
-  }
-
-  verbosity = 1
-
-  depends_on = [
-    azurerm_linux_virtual_machine.master,
-    azurerm_linux_virtual_machine.worker
-  ]
+  depends_on = [local_file.ssh_private_key]
 }
