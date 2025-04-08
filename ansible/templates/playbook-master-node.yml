@@ -41,18 +41,18 @@
       environment:
         KUBECONFIG: /etc/kubernetes/admin.conf
 
-    - name: Créer le dossier postgres-chart
+    - name: Créer le dossier app-chart
       file:
-        path: /home/adminuser/postgres-chart
+        path: /home/adminuser/app-chart
         state: directory
         owner: "adminuser"
         group: "adminuser"
         mode: 0755
 
-    - name: Copier le dossier postgres-chart vers le master
+    - name: Copier le dossier app-chart vers le master
       copy:
-        src: ../../postgres-chart/
-        dest: /home/adminuser/postgres-chart/
+        src: ../../app-chart/
+        dest: /home/adminuser/app-chart/
         owner: adminuser
         group: adminuser
         mode: '0755'
