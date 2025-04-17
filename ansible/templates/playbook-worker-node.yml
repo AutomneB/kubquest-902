@@ -4,7 +4,7 @@
   hosts: worker*
   become: true
   vars:
-    kubeadm_join_cmd: "kubeadm join 10.0.1.4:6443 --token psz8av.lk9e7r7sra08w7v5 --discovery-token-ca-cert-hash sha256:886480ea6c2f7b55be2667c61373f5263875641e4c963427ecb75e44e9e3c57a"
+    kubeadm_join_cmd: "kubeadm join 10.0.1.4:6443 --token y2c7jy.45eu38dh3sit9ppv --discovery-token-ca-cert-hash sha256:269ec9112360af4eba6728a4bf8368f6b21f4fcb62a19fa639bc859b3ddfb2a9"
 
   tasks:
     - name: Joindre le cluster Kubernetes

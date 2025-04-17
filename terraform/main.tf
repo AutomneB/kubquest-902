@@ -203,7 +203,7 @@ resource "azurerm_linux_virtual_machine" "master" {
 
   admin_ssh_key {
     username   = var.instance_username
-    public_key = file("~/.ssh/id_rsa.pub")
+    public_key = local_file.ssh_public_key.content
   }
 
   os_disk {
@@ -273,7 +273,7 @@ resource "azurerm_linux_virtual_machine" "worker" {
 
   admin_ssh_key {
     username   = var.instance_username
-    public_key = file("~/.ssh/id_rsa.pub")
+    public_key = local_file.ssh_public_key.content
   }
 
   os_disk {
