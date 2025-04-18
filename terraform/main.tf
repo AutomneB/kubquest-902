@@ -38,7 +38,7 @@ resource "azurerm_resource_group" "rg" {
 locals {
   vm_sizes = {
     master = "Standard_D2s_v3" # Taille augmentée pour le master
-    worker = "Standard_D2s_v3" # Taille augmentée pour le worker
+    worker = "Standard_D1_v2" # Taille augmentée pour le worker
   }
   vm_config = {
     master = {
@@ -46,7 +46,8 @@ locals {
       size = local.vm_sizes.master
     }
     workers = [
-    { name = "vm-kub-worker1", size = local.vm_sizes.worker } 
+    { name = "vm-kub-worker1", size = local.vm_sizes.worker },
+    { name = "vm-kub-worker2", size = local.vm_sizes.worker } 
    ]
   }
 }

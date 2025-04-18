@@ -119,12 +119,7 @@ volumes: []
 
 # Additional volumeMounts on the output Deployment definition.
 persistence:
-  enabled: true
-  storageClass: "standard"  # ou "" pour la valeur par défaut de ton cluster
-  accessModes:
-    - ReadWriteOnce
-  size: 1Gi
-  mountPath: /var/lib/postgresql/data
+  enabled: false
 
 
 nodeSelector: {}
