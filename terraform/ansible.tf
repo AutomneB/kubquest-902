@@ -40,7 +40,7 @@ resource "local_file" "ssh_config_entry_master" {
 Host k8s-master
   HostName ${azurerm_linux_virtual_machine.master.public_ip_address}
   User ${var.instance_username}
-  IdentityFile ${local_file.ssh_private_key.filename}
+  IdentityFile ${path.cwd}/${local_file.ssh_private_key.filename}
   StrictHostKeyChecking no
   UserKnownHostsFile=/dev/null
 EOT
