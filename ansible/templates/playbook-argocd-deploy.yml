@@ -1,0 +1,28 @@
+### 📘 Playbook Ansible : ArgoCD configure manifest and deploy
+
+- name: deploy application via ArgoCD
+  hosts: master
+  become: true
+  tasks:    
+    - name: Créer le dossier argocd-apps sur le master
+      file:
+        path: /home/adminuser/argocd-apps
+        state: directory
+        owner: adminuser
+        group: adminuser
+        mode: '0755'
+
+    - name: Copier le manifest ArgoCD 902-stack.yaml
+      copy:
+        src: ../argocd-apps/902-stack.yaml
+        dest: /home/adminuser/argocd-apps/902-stack.yaml
+        owner: adminuser
+        group: adminuser
+        mode: '0644'
+
+    - name: Appliquer le manifest ArgoCD 902-stack.yaml
+      become: true
+      become_user: root
+      command: kubectl apply -f /home/adminuser/argocd-apps/902-stack.yaml
+      environment:
+        KUBECONFIG: /etc/kubernetes/admin.conf

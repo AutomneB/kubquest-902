@@ -54,18 +54,18 @@
       environment:
         KUBECONFIG: /etc/kubernetes/admin.conf
 
-    - name: Créer le dossier 902-charts
+    - name: Créer le dossier 902-stack
       file:
-        path: /home/adminuser/902-charts
+        path: /home/adminuser/902-stack
         state: directory
         owner: "adminuser"
         group: "adminuser"
         mode: 0755
 
-    - name: Copier le dossier 902-charts vers le master
+    - name: Copier le dossier 902-stack vers le master
       copy:
-        src: ../../902-charts/
-        dest: /home/adminuser/902-charts/
+        src: ../../902-stack/
+        dest: /home/adminuser/902-stack/
         owner: adminuser
         group: adminuser
         mode: '0755'
@@ -113,7 +113,30 @@
         values:
           server:
             service:
-              type: LoadBalancer
+              type: NodePort
           configs:
             params:
               server.insecure: true
+
+    - name: Créer le dossier argocd-apps sur le master
+      file:
+        path: /home/adminuser/argocd-apps
+        state: directory
+        owner: adminuser
+        group: adminuser
+        mode: '0755'
+
+    - name: Copier le manifest ArgoCD 902-stack.yaml
+      copy:
+        src: ../argocd-apps/902-stack.yaml
+        dest: /home/adminuser/argocd-apps/902-stack.yaml
+        owner: adminuser
+        group: adminuser
+        mode: '0644'
+
+    - name: Appliquer le manifest ArgoCD 902-stack.yaml
+      become: true
+      become_user: root
+      command: kubectl apply -f /home/adminuser/argocd-apps/902-stack.yaml
+      environment:
+        KUBECONFIG: /etc/kubernetes/admin.conf

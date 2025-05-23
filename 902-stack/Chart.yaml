@@ -1,6 +1,6 @@
 
 apiVersion: v2
-name: vote-stack
+name: 902-stack
 version: 0.1.0
 dependencies:
   - name: voting
