@@ -1,24 +1,3 @@
-
-voting:
-  image:
-    repository: my-registry/voting
-    tag: latest
-
-result:
-  image:
-    repository: my-registry/result
-    tag: latest
-
-worker:
-  image:
-    repository: my-registry/worker
-    tag: latest
-  env:
-    - name: REDIS_HOST
-      value: redis-master
-    - name: POSTGRES_HOST
-      value: postgresql
-
 postgresql:
   auth:
     username: postgres
