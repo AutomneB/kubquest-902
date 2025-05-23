@@ -4,9 +4,6 @@ containers:
   - name: worker-app
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
     imagePullPolicy: {{ .Values.image.pullPolicy }}
-    env:
-      - name: DB
-        value: postgres://postgres:postgres@postgres:5432/postgres
     resources:
       {{- toYaml .Values.resources | nindent 12 }}
 

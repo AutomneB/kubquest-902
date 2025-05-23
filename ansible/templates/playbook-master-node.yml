@@ -1,15 +1,28 @@
 ### 📘 Playbook Ansible : Kubernetes Master Node Setup (master-playbook.yml)
 
-
-
-
 - name: Init Kubernetes Master Node
   hosts: master
   become: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
   tasks:
     - name: Montrer sur quel hôte on tourne
       debug:
         msg: "Ce playbook s'exécute sur {{ inventory_hostname }}"
+
+    - name: Installer les dépendances Python pour Kubernetes
+      apt:
+        name:
+          - python3-pip
+        state: present
+        update_cache: true
+
+    - name: Installer les modules Python nécessaires
+      pip:
+        name:
+          - kubernetes
+          - openshift
+          - pyyaml
 
     - name: Initialiser le cluster Kubernetes
       command: kubeadm init --pod-network-cidr=10.244.0.0/16
@@ -41,18 +54,18 @@
       environment:
         KUBECONFIG: /etc/kubernetes/admin.conf
 
-    - name: Créer le dossier app-chart
+    - name: Créer le dossier 902-charts
       file:
-        path: /home/adminuser/app-chart
+        path: /home/adminuser/902-charts
         state: directory
         owner: "adminuser"
         group: "adminuser"
         mode: 0755
 
-    - name: Copier le dossier app-chart vers le master
+    - name: Copier le dossier 902-charts vers le master
       copy:
-        src: ../../app-chart/
-        dest: /home/adminuser/app-chart/
+        src: ../../902-charts/
+        dest: /home/adminuser/902-charts/
         owner: adminuser
         group: adminuser
         mode: '0755'
@@ -75,3 +88,32 @@
     - name: Afficher la commande kubeadm join
       debug:
         msg: "{{ join_command.stdout }}"
+
+    - name: Ajouter le dépôt Helm ArgoCD
+      become_user: root
+      shell: helm repo add argo https://argoproj.github.io/argo-helm && helm repo update
+      environment:
+        KUBECONFIG: /etc/kubernetes/admin.conf
+
+    - name: Créer le namespace ArgoCD
+      kubernetes.core.k8s:
+        api_version: v1
+        kind: Namespace
+        name: argocd
+        state: present
+        kubeconfig: /etc/kubernetes/admin.conf
+
+    - name: Déployer ArgoCD via Helm
+      community.kubernetes.helm:
+        name: argocd
+        chart_ref: argo/argo-cd
+        release_namespace: argocd
+        create_namespace: false
+        kubeconfig: /etc/kubernetes/admin.conf
+        values:
+          server:
+            service:
+              type: LoadBalancer
+          configs:
+            params:
+              server.insecure: true
