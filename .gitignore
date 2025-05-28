@@ -6,3 +6,6 @@ terraform*/
 .terraform*
 .terraform*/
 config.json
+.terraform
+ssh-key/azukey*
+inventory.ini

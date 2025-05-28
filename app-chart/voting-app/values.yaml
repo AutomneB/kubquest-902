@@ -1,0 +1,30 @@
+replicaCount: 1
+
+image:
+  repository: kodekloud/examplevotingapp_vote
+  tag: v1
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+  nodePort: 30080  # ou 80 si autorisé
+
+
+resources:
+  limits:
+    cpu: "500m"
+    memory: "256Mi"
+  requests:
+    cpu: "250m"
+    memory: "128Mi"
+
+podLabels:
+  app.kubernetes.io/name: voting-app
+  app.kubernetes.io/instance: voting
+  app.kubernetes.io/version: "v1"
+  app.kubernetes.io/component: frontend
+  app.kubernetes.io/part-of: demo-voting
+
+nodeAffinity:
+  enabled: true

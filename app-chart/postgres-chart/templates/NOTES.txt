@@ -1,0 +1,13 @@
+PostgreSQL has been deployed!
+
+You can connect to your database using the following command:
+
+  kubectl port-forward svc/{{ include "postgres-chart.fullname" . }} 5432:5432
+
+Then, connect with:
+
+  psql -h localhost -p 5432 -U {{ (index .Values.env 0).value }} postgres
+
+To get your pod name:
+
+  kubectl get pods -l "app={{ include "postgres-chart.name" . }},release={{ .Release.Name }}"

@@ -1,0 +1,20 @@
+replicaCount: 1
+
+image:
+  repository: kodekloud/examplevotingapp_result
+  tag: v1
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+  nodePort: 30004
+
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+podLabels:
+  app: demo-voting-app
+  name: result-app-pod

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: result-app
+description: A Helm chart for Kubernetes result app service
+type: application
+version: 0.1.0
+appVersion: "v1"

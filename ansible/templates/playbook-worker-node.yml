@@ -1,0 +1,13 @@
+### 📘 Playbook Ansible : Kubernetes Worker Node Setup (worker-playbook.yml)
+
+- name: Join Kubernetes Cluster from Worker
+  hosts: worker*
+  become: true
+  vars:
+    kubeadm_join_cmd: "kubeadm join 10.0.1.4:6443 --token k75g1b.wr62369adqxv8x4g --discovery-token-ca-cert-hash sha256:c63d31463963a7a9fa918f68da9b40985fd7914838ceefe607ea7c587117ef42"
+
+  tasks:
+    - name: Joindre le cluster Kubernetes
+      command: "{{ kubeadm_join_cmd }}"
+      args:
+        creates: /etc/kubernetes/kubelet.conf
