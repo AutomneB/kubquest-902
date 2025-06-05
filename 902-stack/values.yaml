@@ -8,13 +8,18 @@ controller:
         prometheus.io/port: "10254"
       port: 10254
       targetPort: 10254
-      type: ClusterIP  # Type conseillé pour les metrics (accessible via port-forward)
+      type: ClusterIP
 
   service:
     type: LoadBalancer
     ports:
       http: 80
       https: 443
+      metrics:
+        port: 10254
+        targetPort: 10254
+        protocol: TCP
+        name: metrics
 
   extraArgs:
     enable-prometheus-metrics: "true"
