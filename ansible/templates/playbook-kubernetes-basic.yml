@@ -1,5 +1,5 @@
 ---
-# Playbook pour configurer les prérequis Kubernetes sur tous les nœuds
+# Playbook pour configurer les prérequis Kubernetes sur tous les nœuds, 
 - name: Configuration commune pour tous les nœuds Kubernetes
   hosts: k8s_nodes
   become: true
@@ -134,3 +134,4 @@
         name: kubelet
         state: started
         enabled: yes
+    

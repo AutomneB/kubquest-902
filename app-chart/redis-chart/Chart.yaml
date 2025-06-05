@@ -1,6 +1,0 @@
-apiVersion: v2
-name: redis-chart
-description: A Helm chart for Redis used in the demo-voting-app
-type: application
-version: 0.1.0
-appVersion: "7"
