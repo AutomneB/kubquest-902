@@ -17,6 +17,4 @@ service:
       targetPort: websecure
     metrics:
       port: 9100
-      targetPort: 9100
-      protocol: TCP
-      name: metrics
+      targetPort: metrics
