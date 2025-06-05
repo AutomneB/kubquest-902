@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: 902-stack
+  name: stack-902
   namespace: argocd
 spec:
   project: default
@@ -14,7 +14,7 @@ spec:
         - values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: 902-app
+    namespace: app-902
   syncPolicy:
     automated:
       prune: true

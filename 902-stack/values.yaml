@@ -2,22 +2,22 @@ controller:
   metrics:
     enabled: true
     service:
+      enabled: true
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "10254"
+      port: 10254
+      targetPort: 10254
+      type: ClusterIP  # Type conseillé pour les metrics (accessible via port-forward)
+
   service:
     type: LoadBalancer
     ports:
       http: 80
       https: 443
-      metrics:
-        port: 10254
-        targetPort: metrics
-        protocol: TCP
-        name: metrics
 
-  # Optionnel : activer le port metrics dans le pod
-  metricsPort: 10254
+  extraArgs:
+    enable-prometheus-metrics: "true"
 
 defaultBackend:
   enabled: true
