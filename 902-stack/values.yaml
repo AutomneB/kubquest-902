@@ -1,22 +1,23 @@
-entryPoints:
+controller:
   metrics:
-    address: ":9100"
-
-metrics:
-  prometheus:
     enabled: true
-    entryPoint: metrics
+    service:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"
+  service:
+    type: LoadBalancer
+    ports:
+      http: 80
+      https: 443
+      metrics:
+        port: 10254
+        targetPort: metrics
+        protocol: TCP
+        name: metrics
 
-service:
-  ports:
-    metrics:
-      name: metrics
-      port: 9100
-      targetPort: 9100
-      protocol: TCP
-    web:
-      port: 80
-      targetPort: web
-    websecure:
-      port: 443
-      targetPort: websecure
+  # Optionnel : activer le port metrics dans le pod
+  metricsPort: 10254
+
+defaultBackend:
+  enabled: true
