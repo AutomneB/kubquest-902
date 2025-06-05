@@ -14,4 +14,5 @@
         chart_ref: prometheus-community/kube-prometheus-stack
         release_namespace: monitoring
         create_namespace: true
-        values: "{{ lookup('file', '../../helm-values/prometheus/values.yaml') | from_yaml }}"
+        values: "{{ lookup('file', '../../helm-values/prometheus/values.yml') | from_yaml }}"
+        kubeconfig: /etc/kubernetes/admin.conf
