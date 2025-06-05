@@ -9,12 +9,14 @@ metrics:
 
 service:
   ports:
+    metrics:
+      name: metrics
+      port: 9100
+      targetPort: 9100
+      protocol: TCP
     web:
       port: 80
       targetPort: web
     websecure:
       port: 443
       targetPort: websecure
-    metrics:
-      port: 9100
-      targetPort: metrics
