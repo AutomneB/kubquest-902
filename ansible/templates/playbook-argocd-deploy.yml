@@ -42,20 +42,26 @@
         group: adminuser
         mode: "0755"
 
-    - name: Copier le manifest ArgoCD 902-stack.yaml
+    - name: Copier les manifests ArgoCD
       copy:
-        src: ../../argocd-apps/902-stack.yaml
-        dest: /home/adminuser/argocd-apps/902-stack.yaml
+        src: ../../argocd-apps/{{ item }}
+        dest: /home/adminuser/argocd-apps/{{ item }}
         owner: adminuser
         group: adminuser
         mode: "0644"
+      loop:
+        - 902-stack.yaml
+        - 902-stack-maeva.yaml
 
-    - name: Appliquer le manifest ArgoCD 902-stack.yaml
+    - name: Appliquer les manifests ArgoCD
       become: true
       become_user: root
-      command: kubectl apply -f /home/adminuser/argocd-apps/902-stack.yaml
+      command: kubectl apply -f /home/adminuser/argocd-apps/{{ item }}
       environment:
         KUBECONFIG: /etc/kubernetes/admin.conf
+      loop:
+        - 902-stack.yaml
+        - 902-stack-maeva.yaml
 
     - name: Récupérer le mot de passe admin initial d'ArgoCD
       shell: "kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
