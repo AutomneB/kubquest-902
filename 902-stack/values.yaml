@@ -1,28 +1,43 @@
-controller:
+# values.yaml
+
+traefik:
+  # Enable Traefik metrics with Prometheus
   metrics:
-    enabled: true
-    service:
-      enabled: true
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "10254"
-      port: 10254
-      targetPort: 10254
-      type: ClusterIP
+    prometheus:
+      enabled: true         # active l'export des metrics Prometheus
+      entryPoint: metrics   # le entrypoint qui va exposer les metrics (voir plus bas)
 
+  # Entrypoints (ports) pour Traefik, on ajoute un port pour metrics
+  entryPoints:
+    web:
+      address: ":80"
+    websecure:
+      address: ":443"
+    metrics:
+      address: ":9100"   # port d'export metrics prometheus
+
+  # Configuration du service Kubernetes qui expose Traefik
   service:
-    type: LoadBalancer
     ports:
-      http: 80
-      https: 443
-      metrics:
-        port: 10254
-        targetPort: 10254
+      web:
+        port: 80
         protocol: TCP
-        name: metrics
+      websecure:
+        port: 443
+        protocol: TCP
+      metrics:
+        port: 9100
+        protocol: TCP
+        targetPort: metrics  # correspond à l'entrypoint metrics
 
-  extraArgs:
-    enable-prometheus-metrics: "true"
+  # Optionnel : configure le serviceMonitor si tu utilises Prometheus Operator
+  serviceMonitor:
+    enabled: true
+    additionalLabels: {}
+    interval: 10s
+    scrapeTimeout: 10s
+    # labels que tu veux ajouter au serviceMonitor (optionnel)
 
-defaultBackend:
-  enabled: true
+  # Optionnel : si tu veux des dashboards Grafana pour Traefik
+  dashboard:
+    enabled: true
