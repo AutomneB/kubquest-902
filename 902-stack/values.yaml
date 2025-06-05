@@ -1,13 +1,14 @@
-postgresql:
-  auth:
-    username: postgres
-    password: postgres
-    database: votes
-    
-    persistence:
-      enabled: false
+entryPoints:
+  metrics:
+    address: ":9100"
 
-redis:
-  architecture: standalone
-  auth:
-    enabled: false
+metrics:
+  prometheus:
+    enabled: true
+    entryPoint: metrics
+
+service:
+  ports:
+    metrics:
+      port: 9100
+      targetPort: 9100
