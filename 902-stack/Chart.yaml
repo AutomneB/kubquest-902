@@ -3,15 +3,6 @@ apiVersion: v2
 name: 902-stack
 version: 0.1.0
 dependencies:
-  - name: voting
-    repository: file://charts/voting
-  - name: result
-    repository: file://charts/result
-  - name: worker
-    repository: file://charts/worker
-  - name: redis
-    version: 18.3.2
-    repository: file://charts/redis
-  - name: postgresql
-    version: 15.2.5
-    repository: file://charts/postgresql
+    - name: traefik
+      version: "35.4.0"        # Choisis la version qui te convient
+      repository: "https://helm.traefik.io/traefik"

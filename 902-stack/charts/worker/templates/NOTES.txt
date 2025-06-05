@@ -1,7 +1,0 @@
-1. To check your worker pod:
-
-   kubectl get pods -l "app={{ .Values.podLabels.app }}" -n {{ .Release.Namespace }}
-
-2. To view logs:
-
-   kubectl logs -l "app={{ .Values.podLabels.app }}" -n {{ .Release.Namespace }}
