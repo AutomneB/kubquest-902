@@ -1,6 +1,6 @@
 
 apiVersion: v2
-name: 902-stack
+name: stack-902
 version: 0.1.0
 dependencies:
     - name: traefik
