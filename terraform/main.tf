@@ -13,7 +13,7 @@ terraform {
   }
   cloud {
 
-    organization = "CLOUD902"
+    organization = "CLOUD902-"
 
     workspaces {
       name = "AzureVm"
@@ -38,7 +38,9 @@ resource "azurerm_resource_group" "rg" {
 locals {
   vm_sizes = {
     master = "Standard_D2s_v3" # Taille augmentée pour le master
-    worker = "Standard_D1_v2" # Taille augmentée pour le worker
+    worker = "Standard_D2ds_v4" # Taille augmentée pour le worker
+    # master = "Standard_D2s_v3" # Taille augmentée pour le master
+    # worker = "Standard_D1_v2" # Taille augmentée pour le worker
   }
   vm_config = {
     master = {

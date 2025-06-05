@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/AutomneB/kubquest-902.git
-    targetRevision: ArgoCD
+    targetRevision: raphael2
     path: 902-stack
     helm:
       valueFiles:
