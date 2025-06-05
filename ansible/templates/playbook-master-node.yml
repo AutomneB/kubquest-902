@@ -80,63 +80,14 @@
         creates: /usr/local/bin/helm
 
 
-
     - name: Générer et afficher la commande kubeadm join
       command: kubeadm token create --print-join-command
       register: join_command
 
-    - name: Afficher la commande kubeadm join
-      debug:
-        msg: "{{ join_command.stdout }}"
-
-    - name: Ajouter le dépôt Helm ArgoCD
-      become_user: root
-      shell: helm repo add argo https://argoproj.github.io/argo-helm && helm repo update
-      environment:
-        KUBECONFIG: /etc/kubernetes/admin.conf
-
-    - name: Créer le namespace ArgoCD
-      kubernetes.core.k8s:
-        api_version: v1
-        kind: Namespace
-        name: argocd
-        state: present
-        kubeconfig: /etc/kubernetes/admin.conf
-
-    - name: Déployer ArgoCD via Helm
-      community.kubernetes.helm:
-        name: argocd
-        chart_ref: argo/argo-cd
-        release_namespace: argocd
-        create_namespace: false
-        kubeconfig: /etc/kubernetes/admin.conf
-        values:
-          server:
-            service:
-              type: NodePort
-          configs:
-            params:
-              server.insecure: true
-
-    - name: Créer le dossier argocd-apps sur le master
-      file:
-        path: /home/adminuser/argocd-apps
-        state: directory
-        owner: adminuser
-        group: adminuser
-        mode: '0755'
-
-    - name: Copier le manifest ArgoCD 902-stack.yaml
+    - name: Sauvegarder la commande kubeadm join dans un fichier partagé
       copy:
-        src: ../argocd-apps/902-stack.yaml
-        dest: /home/adminuser/argocd-apps/902-stack.yaml
+        dest: /home/adminuser/join-command.txt
+        content: "{{ join_command.stdout }}"
         owner: adminuser
         group: adminuser
         mode: '0644'
-
-    - name: Appliquer le manifest ArgoCD 902-stack.yaml
-      become: true
-      become_user: root
-      command: kubectl apply -f /home/adminuser/argocd-apps/902-stack.yaml
-      environment:
-        KUBECONFIG: /etc/kubernetes/admin.conf
