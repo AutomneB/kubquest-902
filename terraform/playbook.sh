@@ -9,8 +9,11 @@ ansible-playbook -i inventory.ini ../ansible/templates/playbook-master-node.yml 
 
 
 #playbook Worker
-ansible-playbook -i inventory.ini ../ansible/templates/playbook-worker-node.yml --ssh-extra-args='-o StrictHostKeyChecking=no' 
+ansible-playbook -i inventory.ini ../ansible/templates/playbook-worker-node.yml --ssh-extra-args='-o StrictHostKeyChecking=no'
 
 
 #Deploy application
 ansible-playbook -i inventory.ini ../ansible/templates/playbook-argocd-deploy.yml --ssh-extra-args='-o StrictHostKeyChecking=no'
+
+# Deploy Prometheus via Helm
+ansible-playbook -i inventory.ini ../ansible/templates/playbook-prometheus-deploy.yml --ssh-extra-args='-o StrictHostKeyChecking=no'

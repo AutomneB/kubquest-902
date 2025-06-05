@@ -1,12 +1,9 @@
 ### 📘 Playbook Ansible : ArgoCD configure manifest and deploy
 
 - name: deploy application via ArgoCD
-  hosts: master
+  hosts: masters
   become: true
-  tasks:    
-
-
-
+  tasks:
     - name: Créer le namespace ArgoCD
       kubernetes.core.k8s:
         api_version: v1
@@ -21,7 +18,7 @@
         repo_url: https://argoproj.github.io/argo-helm
 
     - name: Déployer ArgoCD via Helm
-      community.kubernetes.helm:
+      kubernetes.core.helm:
         name: argocd
         chart_ref: argo/argo-cd
         release_namespace: argocd
@@ -43,7 +40,7 @@
         state: directory
         owner: adminuser
         group: adminuser
-        mode: '0755'
+        mode: "0755"
 
     - name: Copier le manifest ArgoCD 902-stack.yaml
       copy:
@@ -51,7 +48,7 @@
         dest: /home/adminuser/argocd-apps/902-stack.yaml
         owner: adminuser
         group: adminuser
-        mode: '0644'
+        mode: "0644"
 
     - name: Appliquer le manifest ArgoCD 902-stack.yaml
       become: true
@@ -63,7 +60,9 @@
     - name: Récupérer le mot de passe admin initial d'ArgoCD
       shell: "kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
       register: argocd_password
-    
+      environment:
+        KUBECONFIG: /etc/kubernetes/admin.conf
+
     - name: Afficher le port NodePort de ArgoCD
       shell: "kubectl get svc argocd-server -n argocd -o jsonpath='{.spec.ports[?(@.port==443)].nodePort}'"
       register: nodeport_output
