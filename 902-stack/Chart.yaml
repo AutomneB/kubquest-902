@@ -2,16 +2,24 @@
 apiVersion: v2
 name: 902-stack
 version: 0.1.0
+
 dependencies:
   - name: voting
+    version: 0.1.0
     repository: file://charts/voting
+
   - name: result
+    version: 0.1.0
     repository: file://charts/result
+
   - name: worker
+    version: 0.1.0
     repository: file://charts/worker
-  - name: redis
-    version: 18.3.2
+
+  - name: redis-902
+    version: 0.1.0
     repository: file://charts/redis
-  - name: postgresql
-    version: 15.2.5
+
+  - name: postgresql-902
+    version: 0.1.0
     repository: file://charts/postgresql
