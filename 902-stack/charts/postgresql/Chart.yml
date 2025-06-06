@@ -1,7 +1,0 @@
-apiVersion: v2
-name: postgresql-902
-version: 0.1.0
-dependencies:
-  - name: postgresql
-    version: 15.2.5
-    repository: https://charts.bitnami.com/bitnami
