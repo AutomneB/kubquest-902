@@ -61,17 +61,34 @@ traefik:
     interval: 10s
     scrapeTimeout: 10s
 
-
-
 ingress-nginx:
   controller:
     metrics:
       enabled: true
       serviceMonitor:
         enabled: true
-        namespace: monitoring # à adapter selon où tourne ton Prometheus
+        namespace: monitoring
     service:
       type: NodePort
       nodePorts:
         http: 32080
         https: 32443
+
+kube-prometheus-stack:
+  grafana:
+    enabled: true
+    adminPassword: "admin"  # ⚠ pense à changer en prod
+  prometheus:
+    prometheusSpec:
+      serviceMonitorSelectorNilUsesHelmValues: false
+  defaultRules:
+    create: true
+  alertmanager:
+    enabled: true
+  serviceAccounts:
+    alertmanager:
+      create: true
+    prometheus:
+      create: true
+    grafana:
+      create: true
