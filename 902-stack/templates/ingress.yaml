@@ -3,9 +3,8 @@ kind: Ingress
 metadata:
   name: test-app-ingress
   namespace: app-902
-  annotations:
-    kubernetes.io/ingress.class: traefik
 spec:
+  ingressClassName: traefik
   rules:
   - host: test-app.local
     http:
