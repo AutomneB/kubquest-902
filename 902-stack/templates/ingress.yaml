@@ -3,6 +3,9 @@ kind: Ingress
 metadata:
   name: test-app-ingress
   namespace: app-902
+  annotations:
+    # Indique bien à Traefik de gérer cet ingress, si tu veux être sûr
+    kubernetes.io/ingress.class: traefik
 spec:
   ingressClassName: traefik
   rules:
