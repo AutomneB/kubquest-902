@@ -1,62 +1,98 @@
+# Configuration de Traefik Ingress Controller
 traefik:
   dashboard:
     enabled: true
+    # Protéger le dashboard avec une authentification de base
+    auth: {}
+    # Activer l'accès au dashboard via Ingress
+    ingressRoute: true
 
-  entryPoints:
-    web:
-      address: ":18080"
-    websecure:
-      address: ":18443"
-    metrics:
-      address: ":19100"
-
-  metrics:
-    prometheus:
-      enabled: true
-      entryPoint: metrics
-
+  # Configuration des points d'entrée
   ports:
     web:
       port: 18080
-      expose:
-        default: true
+      expose: true
       exposedPort: 18080
       protocol: TCP
     websecure:
       port: 18443
-      expose:
-        default: true
+      expose: true
       exposedPort: 18443
       protocol: TCP
     metrics:
       port: 19100
-      expose:
-        default: true
+      expose: true
       exposedPort: 19100
       protocol: TCP
 
+  # Configuration du service
   service:
     enabled: true
     type: NodePort
     ports:
       web:
-        port: 18080
-        protocol: TCP
-        targetPort: web
         nodePort: 31080
       websecure:
-        port: 18443
-        protocol: TCP
-        targetPort: websecure
         nodePort: 31443
       metrics:
-        port: 19100
-        protocol: TCP
-        targetPort: metrics
         nodePort: 31910
 
+  # Configuration des métriques Prometheus
+  metrics:
+    prometheus:
+      enabled: true
+      entryPoint: metrics
+
+  # Configuration du serviceMonitor pour Prometheus Operator
   serviceMonitor:
     enabled: true
     additionalLabels: {}
     interval: 10s
     scrapeTimeout: 10s
+
+  # Configuration des logs
+  logs:
+    access:
+      enabled: true
+      format: json
+
+  # Configuration de l'ingressClass
+  ingressClass:
+    enabled: true
+    isDefaultClass: true
+
+# Configuration de l'application
+test-app:
+  enabled: true
+  replicaCount: 1
+  
+  image:
+    repository: nginx  # Remplacez par votre image
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 8088
+    targetPort: 80  # Le port sur lequel votre conteneur écoute
+    
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  # Configuration de l'ingress pour l'application
+ingress:
+  enabled: true
+  className: "traefik"
+  hosts:
+    - host: test-app.local
+      paths:
+        - path: /
+          pathType: Prefix
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: web

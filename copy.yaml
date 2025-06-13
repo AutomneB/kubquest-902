@@ -1,0 +1,62 @@
+traefik:
+  dashboard:
+    enabled: true
+
+  entryPoints:
+    web:
+      address: ":18080"
+    websecure:
+      address: ":18443"
+    metrics:
+      address: ":19100"
+
+  metrics:
+    prometheus:
+      enabled: true
+      entryPoint: metrics
+
+  ports:
+    web:
+      port: 18080
+      expose:
+        default: true
+      exposedPort: 18080
+      protocol: TCP
+    websecure:
+      port: 18443
+      expose:
+        default: true
+      exposedPort: 18443
+      protocol: TCP
+    metrics:
+      port: 19100
+      expose:
+        default: true
+      exposedPort: 19100
+      protocol: TCP
+
+  service:
+    enabled: true
+    type: NodePort
+    ports:
+      web:
+        port: 18080
+        protocol: TCP
+        targetPort: web
+        nodePort: 31080
+      websecure:
+        port: 18443
+        protocol: TCP
+        targetPort: websecure
+        nodePort: 31443
+      metrics:
+        port: 19100
+        protocol: TCP
+        targetPort: metrics
+        nodePort: 31910
+
+  serviceMonitor:
+    enabled: true
+    additionalLabels: {}
+    interval: 10s
+    scrapeTimeout: 10s
