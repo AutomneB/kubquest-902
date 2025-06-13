@@ -1,58 +1,59 @@
-dashboard:
-  enabled: true
-
-entryPoints:
-  web:
-    address: ":80"
-  websecure:
-    address: ":443"
-  metrics:
-    address: ":9100"
-
-metrics:
-  prometheus:
+traefik:
+  dashboard:
     enabled: true
-    entryPoint: metrics
 
-ports:
-  web:
-    port: 80
-    expose: true
-    exposedPort: 80
-    protocol: TCP
-  websecure:
-    port: 443
-    expose: true
-    exposedPort: 443
-    protocol: TCP
+  entryPoints:
+    web:
+      address: ":80"
+    websecure:
+      address: ":443"
+    metrics:
+      address: ":9100"
+
   metrics:
-    port: 9100
-    expose: true
-    exposedPort: 9100
-    protocol: TCP
+    prometheus:
+      enabled: true
+      entryPoint: metrics
 
-service:
-  enabled: true
-  type: NodePort
   ports:
     web:
       port: 80
+      expose: true
+      exposedPort: 80
       protocol: TCP
-      targetPort: web
-      nodePort: 30080
     websecure:
       port: 443
+      expose: true
+      exposedPort: 443
       protocol: TCP
-      targetPort: websecure
-      nodePort: 30443
     metrics:
       port: 9100
+      expose: true
+      exposedPort: 9100
       protocol: TCP
-      targetPort: metrics
-      nodePort: 30910
 
-serviceMonitor:
-  enabled: true
-  additionalLabels: {}
-  interval: 10s
-  scrapeTimeout: 10s
+  service:
+    enabled: true
+    type: NodePort
+    ports:
+      web:
+        port: 80
+        protocol: TCP
+        targetPort: web
+        nodePort: 30080
+      websecure:
+        port: 443
+        protocol: TCP
+        targetPort: websecure
+        nodePort: 30443
+      metrics:
+        port: 9100
+        protocol: TCP
+        targetPort: metrics
+        nodePort: 30910
+
+  serviceMonitor:
+    enabled: true
+    additionalLabels: {}
+    interval: 10s
+    scrapeTimeout: 10s
