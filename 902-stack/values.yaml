@@ -11,17 +11,20 @@ traefik:
   ports:
     web:
       port: 18080
-      expose: true
+      expose:
+        default: true
       exposedPort: 18080
       protocol: TCP
     websecure:
       port: 18443
-      expose: true
+      expose:
+        default: true
       exposedPort: 18443
       protocol: TCP
     metrics:
       port: 19100
-      expose: true
+      expose:
+        default: true
       exposedPort: 19100
       protocol: TCP
 
