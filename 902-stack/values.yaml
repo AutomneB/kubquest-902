@@ -4,11 +4,11 @@ traefik:
 
   entryPoints:
     web:
-      address: ":8080"
+      address: ":18080"
     websecure:
-      address: ":8443"
+      address: ":18443"
     metrics:
-      address: ":9100"
+      address: ":19100"
 
   metrics:
     prometheus:
@@ -17,22 +17,22 @@ traefik:
 
   ports:
     web:
-      port: 8080
+      port: 18080
       expose:
         default: true
-      exposedPort: 8080
+      exposedPort: 18080
       protocol: TCP
     websecure:
-      port: 8443
+      port: 18443
       expose:
         default: true
-      exposedPort: 8443
+      exposedPort: 18443
       protocol: TCP
     metrics:
-      port: 9100
+      port: 19100
       expose:
         default: true
-      exposedPort: 9100
+      exposedPort: 19100
       protocol: TCP
 
   service:
@@ -40,20 +40,20 @@ traefik:
     type: NodePort
     ports:
       web:
-        port: 8080
+        port: 18080
         protocol: TCP
         targetPort: web
-        nodePort: 30080
+        nodePort: 31080
       websecure:
-        port: 8443
+        port: 18443
         protocol: TCP
         targetPort: websecure
-        nodePort: 30443
+        nodePort: 31443
       metrics:
-        port: 9100
+        port: 19100
         protocol: TCP
         targetPort: metrics
-        nodePort: 30910
+        nodePort: 31910
 
   serviceMonitor:
     enabled: true
