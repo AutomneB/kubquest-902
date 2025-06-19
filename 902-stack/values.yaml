@@ -1,13 +1,106 @@
-postgresql:
-  auth:
-    username: postgres
-    password: postgres
-    database: votes
-    
-    persistence:
-      enabled: false
+traefik:
+  dashboard:
+    enabled: true
 
-redis:
-  architecture: standalone
-  auth:
-    enabled: false
+  entryPoints:
+    web:
+      address: ":18080"
+    websecure:
+      address: ":18443"
+    metrics:
+      address: ":19100"
+
+  metrics:
+    prometheus:
+      enabled: true
+      entryPoint: metrics
+
+  ports:
+    web:
+      port: 18080
+      expose:
+        default: true
+      exposedPort: 18080
+      protocol: TCP
+    websecure:
+      port: 18443
+      expose:
+        default: true
+      exposedPort: 18443
+      protocol: TCP
+    metrics:
+      port: 19100
+      expose:
+        default: true
+      exposedPort: 19100
+      protocol: TCP
+
+  service:
+    enabled: true
+    type: NodePort
+    ports:
+      web:
+        port: 18080
+        protocol: TCP
+        targetPort: web
+        nodePort: 31080
+      websecure:
+        port: 18443
+        protocol: TCP
+        targetPort: websecure
+        nodePort: 31443
+      metrics:
+        port: 19100
+        protocol: TCP
+        targetPort: metrics
+        nodePort: 31910
+
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring
+    interval: 10s
+    scrapeTimeout: 10s
+
+ingress-nginx:
+  controller:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        namespace: monitoring
+    service:
+      type: NodePort
+      nodePorts:
+        http: 32080
+        https: 32443
+
+prometheus:
+  serviceMonitor:
+    selectorNilUsesHelmValues: false
+  prometheus:
+    serviceMonitorSelector:
+      matchLabels:
+        release: prometheus
+  server:
+    service:
+      type: NodePort
+      nodePort: 30900
+  prometheusSpec:
+    serviceMonitorSelector: {}
+    serviceMonitorNamespaceSelector: {}
+
+grafana:
+  adminUser: admin
+  adminPassword: admin
+  service:
+    type: NodePort
+    nodePort: 30800
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://prometheus-server:80
+          access: proxy
+          isDefault: true
