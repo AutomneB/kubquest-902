@@ -47,3 +47,18 @@ traefik:
     namespace: monitoring
     interval: 10s
     scrapeTimeout: 10s
+
+prometheus:
+  serviceMonitor:
+    selectorNilUsesHelmValues: false
+  prometheus:
+    serviceMonitorSelector:
+      matchLabels:
+        release: prometheus
+  server:
+    service:
+      type: NodePort
+      nodePort: 30900
+  prometheusSpec:
+    serviceMonitorSelector: {}
+    serviceMonitorNamespaceSelector: {}

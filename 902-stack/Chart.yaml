@@ -6,3 +6,6 @@ dependencies:
   - name: traefik
     version: "35.4.0"
     repository: "https://helm.traefik.io/traefik"
+  - name: prometheus
+    version: "25.21.0"
+    repository: "https://prometheus-community.github.io/helm-charts"
