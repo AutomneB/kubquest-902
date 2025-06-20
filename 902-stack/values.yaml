@@ -1,6 +1,7 @@
 traefik:
   dashboard:
     enabled: true
+  
   entryPoints:
     web:
       address: ":8000"
@@ -8,13 +9,12 @@ traefik:
       address: ":8443"
     metrics:
       address: ":9090"
+  
   metrics:
     prometheus:
       enabled: true
       entryPoint: metrics
-      serviceMonitor:
-        enabled: true
-        namespace: default # Assurez-vous que ce namespace est correct
+  
   ports:
     web:
       port: 8000
@@ -37,15 +37,7 @@ traefik:
       exposedPort: 9090
       protocol: TCP
       nodePort: 31910
+  
   service:
     enabled: true
     type: NodePort
-
-prometheus:
-  # v-- NOUVELLE SECTION CI-DESSOUS --v
-  crds:
-    enabled: true # <-- MODIFICATION : Indique au chart d'installer les CRDs requises (ServiceMonitor, etc.)
-  # ^-- NOUVELLE SECTION CI-DESSUS --^
-  prometheusSpec:
-    serviceMonitorSelectorNilUsesHelmValues: false
-    serviceMonitorSelector: {}
