@@ -61,7 +61,7 @@ prometheus:
             resources:
               requests:
                 storage: 8Gi
-            storageClassName: azure-managed-disk
+            storageClassName: local-storage  # Utilisez la StorageClass créée
   alertmanager:
     alertmanagerSpec:
       storage:
@@ -71,7 +71,7 @@ prometheus:
             resources:
               requests:
                 storage: 2Gi
-            storageClassName: azure-managed-disk
+            storageClassName: local-storage  # Utilisez la StorageClass créée
   server:
     service:
       type: NodePort
