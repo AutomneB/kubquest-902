@@ -12,9 +12,21 @@ traefik:
   
   metrics:
     prometheus:
-      enabled: true
       entryPoint: metrics
+      addServicesLabels: true
+      addRoutersLabels: true
   
+
+  additionalServiceMonitors:
+    enabled: true
+    namespace: monitoring
+    interval: 15s
+    scrapeTimeout: 10s
+    selector:
+      release: prometheus
+    path: /metrics
+    port: metrics
+    
   ports:
     web:
       port: 8000
