@@ -4,11 +4,11 @@ traefik:
   
   entryPoints:
     web:
-      address: ":8080"  # Port standard pour HTTP
+      address: ":8000"   # Port alternatif pour HTTP
     websecure:
-      address: ":8443"  # Port standard pour HTTPS
+      address: ":8443"   # Port standard pour HTTPS (généralement libre)
     metrics:
-      address: ":9100"  # Port standard pour les métriques Prometheus
+      address: ":9090"   # Port alternatif pour les métriques
   
   metrics:
     prometheus:
@@ -17,10 +17,10 @@ traefik:
   
   ports:
     web:
-      port: 8080          # Correspond à l'entryPoint web
+      port: 8000          # Correspond à l'entryPoint web
       expose:
         default: true
-      exposedPort: 8080
+      exposedPort: 8000
       protocol: TCP
     websecure:
       port: 8443          # Correspond à l'entryPoint websecure
@@ -29,10 +29,10 @@ traefik:
       exposedPort: 8443
       protocol: TCP
     metrics:
-      port: 9100          # Correspond à l'entryPoint metrics
+      port: 9090          # Correspond à l'entryPoint metrics
       expose:
         default: true
-      exposedPort: 9100
+      exposedPort: 9090
       protocol: TCP
   
   service:
@@ -40,7 +40,7 @@ traefik:
     type: NodePort
     ports:
       web:
-        port: 8080        # Même port que dans ports.web.port
+        port: 8000        # Même port que dans ports.web.port
         protocol: TCP
         targetPort: web
         nodePort: 31080
@@ -50,7 +50,7 @@ traefik:
         targetPort: websecure
         nodePort: 31443
       metrics:
-        port: 9100        # Même port que dans ports.metrics.port
+        port: 9090        # Même port que dans ports.metrics.port
         protocol: TCP
         targetPort: metrics
         nodePort: 31910
