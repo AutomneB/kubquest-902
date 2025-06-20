@@ -12,6 +12,8 @@ traefik:
     prometheus:
       enabled: true
       entryPoint: metrics
+      serviceMonitor: # <-- MODIFICATION : Active la création du ServiceMonitor pour Traefik
+        enabled: true
   ports:
     web:
       port: 8000
@@ -41,3 +43,4 @@ traefik:
 prometheus:
   prometheusSpec:
     serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {} # <-- MODIFICATION : Indique à Prometheus de découvrir TOUS les ServiceMonitors
