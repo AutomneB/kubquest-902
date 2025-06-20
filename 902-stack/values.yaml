@@ -18,40 +18,29 @@ traefik:
   ports:
     web:
       port: 8000
-      expose: true
+      expose:
+        default: true
       exposedPort: 8000
       protocol: TCP
+      nodePort: 31080
     websecure:
       port: 8443
-      expose: true
+      expose:
+        default: true
       exposedPort: 8443
       protocol: TCP
+      nodePort: 31443
     metrics:
       port: 9090
-      expose: true
+      expose:
+        default: true
       exposedPort: 9090
       protocol: TCP
+      nodePort: 31910
   
   service:
     enabled: true
     type: NodePort
-    spec:
-      ports:
-        - name: web
-          port: 8000
-          protocol: TCP
-          targetPort: 8000
-          nodePort: 31080
-        - name: websecure
-          port: 8443
-          protocol: TCP
-          targetPort: 8443
-          nodePort: 31443
-        - name: metrics
-          port: 9090
-          protocol: TCP
-          targetPort: 9090
-          nodePort: 31910
   
   serviceMonitor:
     enabled: true
