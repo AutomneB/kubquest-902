@@ -1,0 +1,12 @@
+CR de Réunion CLOUD-902 Maéva - Raphaël
+Coordination sur la tâche Prometheus et Traefik
+
+- Etat des lieux de ce qui a été réalisé chacun de son coté
+- Mise en commun pour coordination sur la tâche ajouter Prometheus et Traefik
+- Lancement de prometheus et grafana
+- Parcours des dashboards déjà disponibles depuis l'interface grafana
+
+Prochaines tâches
+
+- Relier Traefik et Prometheus
+- Mise à jour du README.md selon ajout
