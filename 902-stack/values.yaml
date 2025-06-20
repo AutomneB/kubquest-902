@@ -1,7 +1,6 @@
 traefik:
   dashboard:
     enabled: true
-
   entryPoints:
     web:
       address: ":8000"
@@ -9,12 +8,10 @@ traefik:
       address: ":8443"
     metrics:
       address: ":9090"
-
   metrics:
     prometheus:
       enabled: true
       entryPoint: metrics
-
   ports:
     web:
       port: 8000
@@ -37,11 +34,11 @@ traefik:
       exposedPort: 9090
       protocol: TCP
       nodePort: 31910
-
   service:
     enabled: true
     type: NodePort
 
+prometheus:
   serviceMonitor:
     enabled: true
     namespace: monitoring
@@ -49,29 +46,22 @@ traefik:
     scrapeTimeout: 10s
     additionalLabels:
       release: prometheus
-
-prometheus:
-  serviceMonitor:
-    selectorNilUsesHelmValues: false
-
   prometheus:
-    serviceMonitorSelector:
-      matchLabels:
-        release: prometheus
-
-  prometheusSpec:
-    serviceMonitorSelector: {}
-    serviceMonitorNamespaceSelector: {}
-
-    storageSpec:
-      volumeClaimTemplate:
-        spec:
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 8Gi
-          storageClassName: azure-managed-disk
-
+    serviceMonitor:
+      selectorNilUsesHelmValues: false
+    prometheusSpec:
+      serviceMonitorSelector:
+        matchLabels:
+          release: prometheus
+      serviceMonitorNamespaceSelector: {}
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 8Gi
+            storageClassName: azure-managed-disk
   alertmanager:
     alertmanagerSpec:
       storage:
@@ -82,7 +72,6 @@ prometheus:
               requests:
                 storage: 2Gi
             storageClassName: azure-managed-disk
-
   server:
     service:
       type: NodePort
