@@ -12,8 +12,9 @@ traefik:
     prometheus:
       enabled: true
       entryPoint: metrics
-      serviceMonitor: # <-- MODIFICATION : Active la création du ServiceMonitor pour Traefik
+      serviceMonitor:
         enabled: true
+        namespace: default # Assurez-vous que ce namespace est correct
   ports:
     web:
       port: 8000
@@ -41,6 +42,10 @@ traefik:
     type: NodePort
 
 prometheus:
+  # v-- NOUVELLE SECTION CI-DESSOUS --v
+  crds:
+    enabled: true # <-- MODIFICATION : Indique au chart d'installer les CRDs requises (ServiceMonitor, etc.)
+  # ^-- NOUVELLE SECTION CI-DESSUS --^
   prometheusSpec:
     serviceMonitorSelectorNilUsesHelmValues: false
-    serviceMonitorSelector: {} # <-- MODIFICATION : Indique à Prometheus de découvrir TOUS les ServiceMonitors
+    serviceMonitorSelector: {}
