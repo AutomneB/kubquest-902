@@ -1,60 +1,60 @@
 traefik:
   dashboard:
     enabled: true
-
+  
   entryPoints:
     web:
-      address: ":18080"
+      address: ":8080"  # Port standard pour HTTP
     websecure:
-      address: ":18443"
+      address: ":8443"  # Port standard pour HTTPS
     metrics:
-      address: ":19100"
-
+      address: ":9100"  # Port standard pour les métriques Prometheus
+  
   metrics:
     prometheus:
       enabled: true
       entryPoint: metrics
-
+  
   ports:
     web:
-      port: 18080
+      port: 8080          # Correspond à l'entryPoint web
       expose:
         default: true
-      exposedPort: 18080
+      exposedPort: 8080
       protocol: TCP
     websecure:
-      port: 18443
+      port: 8443          # Correspond à l'entryPoint websecure
       expose:
         default: true
-      exposedPort: 18443
+      exposedPort: 8443
       protocol: TCP
     metrics:
-      port: 19100
+      port: 9100          # Correspond à l'entryPoint metrics
       expose:
         default: true
-      exposedPort: 19100
+      exposedPort: 9100
       protocol: TCP
-
+  
   service:
     enabled: true
     type: NodePort
     ports:
       web:
-        port: 18080
+        port: 8080        # Même port que dans ports.web.port
         protocol: TCP
         targetPort: web
         nodePort: 31080
       websecure:
-        port: 18443
+        port: 8443        # Même port que dans ports.websecure.port
         protocol: TCP
         targetPort: websecure
         nodePort: 31443
       metrics:
-        port: 19100
+        port: 9100        # Même port que dans ports.metrics.port
         protocol: TCP
         targetPort: metrics
         nodePort: 31910
-
+  
   serviceMonitor:
     enabled: true
     namespace: monitoring
