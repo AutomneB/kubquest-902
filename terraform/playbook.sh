@@ -14,3 +14,5 @@ ansible-playbook -i inventory.ini ../ansible/templates/playbook-worker-node.yml 
 
 #Deploy application
 ansible-playbook -i inventory.ini ../ansible/templates/playbook-argocd-deploy.yml --ssh-extra-args='-o StrictHostKeyChecking=no'
+
+ansible-playbook -i inventory.ini ../ansible/templates/playbook-prometheus-deploy.yml --ssh-extra-args='-o StrictHostKeyChecking=no'

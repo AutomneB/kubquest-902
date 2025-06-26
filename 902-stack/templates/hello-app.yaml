@@ -1,0 +1,40 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-app
+  labels:
+    app: hello-world-app # Label utilisé par le Service pour identifier les pods
+spec:
+  replicas: 1 # Nombre de répliques du pod
+  selector:
+    matchLabels:
+      app: hello-world-app
+  template:
+    metadata:
+      labels:
+        app: hello-world-app
+    spec:
+      containers:
+      - name: hello-world-container
+        image: nginxdemos/hello:plain-text # Une image simple qui sert "Hello World!" sur le port 80
+        # Nous allons rediriger le port 9999 du Service vers le port 80 de ce conteneur.
+        # Vous pouvez remplacer cette image par la vôtre si votre application écoute déjà sur 9999.
+        ports:
+        - containerPort: 80 # Le port interne du conteneur où l'application écoute
+          name: http-app # Nom du port
+---
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service # Doit correspondre au nom du service dans l'IngressRoute Traefik
+spec:
+  selector:
+    app: hello-world-app # Sélectionne les pods avec le label 'app: hello-world-app'
+  ports:
+    - protocol: TCP
+      port: 9999 # Le port que ce service expose
+      targetPort: 80 # Le port sur lequel le conteneur de l'application écoute (ici, le port 80 de nginxdemos/hello)
+      name: http # Nom du port
+  type: ClusterIP # Rend le service accessible uniquement à l'intérieur du cluster

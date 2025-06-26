@@ -1,0 +1,15 @@
+# ingressroute.yaml
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: my-app-ingressroute
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: PathPrefix(`/end`)
+      kind: Rule
+      services:
+        - name: my-app-service
+          port: 9999
