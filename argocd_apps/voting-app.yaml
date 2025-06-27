@@ -1,1 +1,19 @@
-
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: voting-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/AutomneB/kubquest-902'
+    chart: voting
+    targetRevision: HEAD
+    path: apps_charts/voting
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

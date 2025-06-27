@@ -1,0 +1,25 @@
+replicaCount: 1
+
+image:
+  repository: redis
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 6379
+
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+podLabels:
+  app.kubernetes.io/name: redis-app
+  app.kubernetes.io/instance: redis
+  app.kubernetes.io/version: "v1"
+  app.kubernetes.io/component: db
+  app.kubernetes.io/part-of: demo-voting
+
+labels:
+  app: demo-voting-app

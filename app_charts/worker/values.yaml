@@ -7,8 +7,15 @@ image:
 
 
 podLabels:
-  app: voting-app
-  name: worker-app-pod
+  app.kubernetes.io/name: worker-app
+  app.kubernetes.io/instance: worker
+  app.kubernetes.io/version: "v1"
+  app.kubernetes.io/component: backend
+  app.kubernetes.io/part-of: demo-voting
+
+
+labels:
+  app: demo-voting-app
 
 resources:
   limits:

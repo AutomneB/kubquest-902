@@ -1,0 +1,9 @@
+Redis has been deployed.
+
+To access your Redis service:
+
+  kubectl port-forward svc/{{ include "redis-chart.fullname" . }} 6379:6379
+
+You can test connectivity using:
+
+  redis-cli -h 127.0.0.1 -p 6379

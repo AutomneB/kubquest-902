@@ -16,5 +16,8 @@ tolerations: []
 affinity: {}
 
 podLabels:
-  app: demo-voting-app
-  name: result-app-pod
+  app.kubernetes.io/name: result-app
+  app.kubernetes.io/instance: result
+  app.kubernetes.io/version: "v1"
+  app.kubernetes.io/component: frontend
+  app.kubernetes.io/part-of: demo-voting

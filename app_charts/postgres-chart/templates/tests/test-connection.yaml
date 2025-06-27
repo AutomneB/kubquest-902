@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "postgres-chart.fullname" . }}-test-connection"
+  labels:
+    app.kubernetes.io/name: {{ include "postgres-chart.name" . }}
+    helm.sh/hook: test
+spec:
+  containers:
+    - name: psql
+      image: postgres
+      command: ['psql']
+      args: ['-h', '{{ include "postgres-chart.fullname" . }}', '-U', 'postgres', '-c', 'SELECT 1']
+      env:
+        - name: PGPASSWORD
+          value: "postgres"
+  restartPolicy: Never

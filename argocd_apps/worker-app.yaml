@@ -1,1 +1,19 @@
-
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: worker-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/AutomneB/kubquest-902.git'
+    chart: worker
+    targetRevision: HEAD
+    path: apps_charts/worker
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

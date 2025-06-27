@@ -26,5 +26,8 @@ podLabels:
   app.kubernetes.io/component: frontend
   app.kubernetes.io/part-of: demo-voting
 
+labels:
+  app: demo-voting-app
+
 nodeAffinity:
   enabled: true
