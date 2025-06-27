@@ -37,26 +37,26 @@
             params:
               server.insecure: true
 
-    - name: Créer le dossier argocd-apps sur le master
+    - name: Créer le dossier argocd_deploy sur le master
       file:
-        path: /home/adminuser/argocd-apps
+        path: /home/adminuser/argocd_deploy
         state: directory
         owner: adminuser
         group: adminuser
         mode: '0755'
 
-    - name: Copier le manifest ArgoCD 902-stack.yaml
+    - name: Copier le manifest ArgoCD argocd_kubequest_deploy.yaml
       copy:
-        src: ../../argocd-apps/902-stack.yaml
-        dest: /home/adminuser/argocd-apps/902-stack.yaml
+        src: ../../argocd_deploy/argocd_kubequest_deploy.yaml
+        dest: /home/adminuser/argocd_deploy/argocd_kubequest_deploy.yaml
         owner: adminuser
         group: adminuser
         mode: '0644'
 
-    - name: Appliquer le manifest ArgoCD 902-stack.yaml
+    - name: Appliquer le manifest ArgoCD kubequest deployment
       become: true
       become_user: root
-      command: kubectl apply -f /home/adminuser/argocd-apps/902-stack.yaml
+      command: kubectl apply -f /home/adminuser/argocd_deploy/argocd_kubequest_deploy.yaml
       environment:
         KUBECONFIG: /etc/kubernetes/admin.conf
 
