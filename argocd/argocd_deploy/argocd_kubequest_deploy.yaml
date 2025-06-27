@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/AutomneB/kubquest-902.git
     targetRevision: ArgoCD
-    path: kubequest
+    path: argocd/root-argocd
     helm:
       valueFiles:
         - values.yaml

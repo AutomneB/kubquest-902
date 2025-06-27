@@ -1,14 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root-app
+  name: postgresql-app
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: 'https://github.com/AutomneB/kubquest-902.git'
-    path: apps_charts
+    chart: postgres-chart
     targetRevision: HEAD
+    path: argocd/apps_charts/postgres-chart
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: default
