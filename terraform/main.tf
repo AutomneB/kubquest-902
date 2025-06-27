@@ -13,10 +13,10 @@ terraform {
   }
   cloud {
 
-    organization = "CLOUD902"
+    organization = "Kubquest1"
 
     workspaces {
-      name = "AzureVm"
+      name = "AzureVM"
     }
   }
 }
