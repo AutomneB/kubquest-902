@@ -9,9 +9,6 @@ spec:
     repoURL: https://github.com/AutomneB/kubquest-902.git
     targetRevision: ArgoCD
     path: argocd/root-argocd
-    helm:
-      valueFiles:
-        - values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: kubequest
