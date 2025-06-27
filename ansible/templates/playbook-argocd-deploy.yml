@@ -86,7 +86,7 @@
       environment:
         ARGOCD_OPTS: "--grpc-web"
       shell: |
-        yes y | argocd login {{ hostvars[inventory_hostname]['ansible_host'] }}:{{ nodeport_output.stdout }} \
+        y | argocd login {{ hostvars[inventory_hostname]['ansible_host'] }}:{{ nodeport_output.stdout }} \
           --username admin \
           --password '{{ argocd_password.stdout }}' \
           --insecure
