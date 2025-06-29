@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/AutomneB/kubquest-902.git'
     targetRevision: ArgoCD
-    path: argocd/apps_charts/voting
+    path: argocd/charts_apps/voting
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: default
