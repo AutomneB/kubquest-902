@@ -6,9 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/AutomneB/kubquest-902'
-    chart: voting
-    targetRevision: HEAD
+    repoURL: 'https://github.com/AutomneB/kubquest-902.git'
+    targetRevision: ArgoCD
     path: argocd/apps_charts/voting
   destination:
     server: 'https://kubernetes.default.svc'

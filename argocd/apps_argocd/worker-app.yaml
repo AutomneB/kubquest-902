@@ -7,8 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/AutomneB/kubquest-902.git'
-    chart: worker
-    targetRevision: HEAD
+    targetRevision: ArgoCD
     path: argocd/apps_charts/worker
   destination:
     server: 'https://kubernetes.default.svc'

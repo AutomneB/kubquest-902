@@ -7,8 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/AutomneB/kubquest-902.git'
-    chart: redis-chart
-    targetRevision: HEAD
+    targetRevision: ArgoCD
     path: argocd/apps_charts/redis-chart
   destination:
     server: 'https://kubernetes.default.svc'
