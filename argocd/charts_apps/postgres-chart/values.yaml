@@ -10,7 +10,7 @@ postgresql:
     persistence:
       enabled: true
       size: 1Gi
-      storageClass: azure-disk-immediate
+      storageClass: azure-disk
 
 
   service:

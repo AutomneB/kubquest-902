@@ -8,4 +8,4 @@ parameters:
   kind: Managed
   cachingmode: None
 reclaimPolicy: Delete
-volumeBindingMode: WaitForFirstConsumer
+volumeBindingMode: Immediate
