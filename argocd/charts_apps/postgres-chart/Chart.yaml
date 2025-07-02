@@ -1,13 +1,10 @@
 apiVersion: v2
-name: basic-postgres-chart
-description: A basic Helm chart for PostgreSQL database
+name: postgres-chart
+description: A basic Helm chart using Bitnami PostgreSQL as dependency
 type: application
 version: 0.1.0
-appVersion: "latest"
-keywords:
-  - postgresql
-  - postgres
-  - database
-  - sql
-maintainers:
-  - name: KubeQuest Team
+appVersion: "15.2.5"
+dependencies:
+  - name: postgresql
+    version: 15.2.5
+    repository: https://charts.bitnami.com/bitnami

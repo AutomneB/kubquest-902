@@ -1,27 +1,12 @@
-replicaCount: 1
-
-image:
-  repository: postgres
-  tag: latest
-  pullPolicy: IfNotPresent
-
-service:
-  type: ClusterIP
-  port: 5432
-
-resources: {}
-nodeSelector: {}
-tolerations: []
-affinity: {}
-
 postgresql:
-  username: postgres
-  password: examplepassword
-  database: demo_voting
-
-persistence:
-  enabled: true
-  storageClassName: "standard"
-  accessModes:
-    - ReadWriteOnce
-  size: 1Gi
+  fullnameOverride: my-postgresql
+  auth:
+    username: myuser
+    password: mypassword
+    database: mydatabase
+  primary:
+    persistence:
+      enabled: true
+      size: 8Gi
+  service:
+    type: ClusterIP
