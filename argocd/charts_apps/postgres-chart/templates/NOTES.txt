@@ -6,7 +6,7 @@ You can connect to your database using the following command:
 
 Then, connect with:
 
-  psql -h localhost -p 5432 -U {{ default "postgres" (index (default list .Values.env) 0).value }} postgres
+  psql -h localhost -p 5432 -U {{ .Values.postgresql.username }} postgres
 
 To get your pod name:
 
