@@ -31,7 +31,7 @@
 
     - name: Copier le fichier StorageClass azure-disk-sc.yaml sur le master
       copy:
-        src: ../persistanteVolume/azure-disk-sc.yaml
+        src: ../../persistanteVolume/azure-disk-sc.yaml
         dest: /home/adminuser/azure-disk-sc.yaml
         owner: adminuser
         group: adminuser

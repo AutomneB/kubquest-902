@@ -14,7 +14,7 @@ ansible-playbook -i inventory.ini ../ansible/templates/playbook-worker-node.yml 
 
 
 #Deploy SC
-ansible-playbook -i inventory.ini ../../ansible/templates/playbook-CSI-deploy.yml --ssh-extra-args='-o StrictHostKeyChecking=no'
+ansible-playbook -i inventory.ini ../ansible/templates/playbook-CSI-deploy.yml --ssh-extra-args='-o StrictHostKeyChecking=no'
 
 #Deploy application
-ansible-playbook -i inventory.ini ../../ansible/templates/playbook-argocd-deploy.yml --ssh-extra-args='-o StrictHostKeyChecking=no'
+ansible-playbook -i inventory.ini ../ansible/templates/playbook-argocd-deploy.yml --ssh-extra-args='-o StrictHostKeyChecking=no'
