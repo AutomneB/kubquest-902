@@ -10,3 +10,8 @@ kubectl delete crd applications.argoproj.io appprojects.argoproj.io   applicatio
 get argocd password 
 
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d
+
+
+voir les svc 
+
+kubectl get svc -n default

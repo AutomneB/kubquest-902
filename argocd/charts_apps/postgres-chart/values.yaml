@@ -15,11 +15,8 @@ tolerations: []
 affinity: {}
 
 podLabels:
-  app.kubernetes.io/name: postgres-app
-  app.kubernetes.io/instance: postgres
-  app.kubernetes.io/version: "v1"
-  app.kubernetes.io/component: db
-  app.kubernetes.io/part-of: demo-voting
+  app.kubernetes.io/name: {{ include "postgres-chart.name" . }}
+  app.kubernetes.io/instance: {{ .Release.Name }}
 
 labels:
   app: demo-voting-app
@@ -45,4 +42,4 @@ persistence:
   storageClassName: "standard"
   accessModes:
     - ReadWriteOnce
-  size: 8Gi
+  size: 1Gi
