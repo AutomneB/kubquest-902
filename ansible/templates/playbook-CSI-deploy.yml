@@ -1,10 +1,32 @@
 - name: Deploy CSI Azure Disk driver and StorageClass
   hosts: master
   become: true
-  vars_files:
-    - azure-vars.yml
+
 
   tasks:
+
+    - name: Copier le fichier StorageClass azure-disk-sc.yaml sur le master
+      copy:
+        src: ../../persistanteVolume/azure-disk-sc.yaml
+        dest: /home/adminuser/azure-disk-sc.yaml
+        owner: adminuser
+        group: adminuser
+        mode: '0644'
+
+
+    - name: Créer le secret azure-cloud-provider dans kube-system
+      kubernetes.core.k8s:
+        kubeconfig: /etc/kubernetes/admin.conf
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: azure-cloud-provider
+            namespace: kube-system
+          type: Opaque
+          data:
+            cloud-config: "{{ lookup('file', '../../persistanteVolume/sc-azure.json') | b64encode }}"
 
     - name: Ajouter le repo Helm Azure Disk CSI
       community.kubernetes.helm_repository:
@@ -18,24 +40,7 @@
         release_namespace: kube-system
         create_namespace: false
         kubeconfig: /etc/kubernetes/admin.conf
-        values:
-          azureTenantId: "{{ azure_tenant_id }}"
-          azureClientId: "{{ azure_app_id }}"
-          azureClientSecret: "{{ azure_app_secret }}"
-          azureSubscriptionId: "{{ azure_subscription_id }}"
-          cloud: "AzurePublicCloud"
-          linux:
-            enabled: true
-          windows:
-            enabled: false
 
-    - name: Copier le fichier StorageClass azure-disk-sc.yaml sur le master
-      copy:
-        src: ../../persistanteVolume/azure-disk-sc.yaml
-        dest: /home/adminuser/azure-disk-sc.yaml
-        owner: adminuser
-        group: adminuser
-        mode: '0644'
 
     - name: Appliquer le manifest StorageClass azure-disk
       command: kubectl apply -f /home/adminuser/azure-disk-sc.yaml
