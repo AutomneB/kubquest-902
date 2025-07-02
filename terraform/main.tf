@@ -30,7 +30,7 @@ provider "azurerm" {
 
 # Création du resource group
 resource "azurerm_resource_group" "rg" {
-  name     = "RG-GROUP-034"
+  name     = "RG-kubequest"
   location = "Spain Central"
 }
 
@@ -38,7 +38,7 @@ resource "azurerm_resource_group" "rg" {
 locals {
   vm_sizes = {
     master = "Standard_D2s_v3" # Taille augmentée pour le master
-    worker = "Standard_D1_v2" # Taille augmentée pour le worker
+    worker = "Standard_B1s" # Taille augmentée pour le worker
   }
   vm_config = {
     master = {

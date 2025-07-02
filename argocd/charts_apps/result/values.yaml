@@ -21,3 +21,25 @@ podLabels:
   app.kubernetes.io/version: "v1"
   app.kubernetes.io/component: frontend
   app.kubernetes.io/part-of: demo-voting
+
+# Add the following sections
+serviceAccount:
+  create: false  
+  automount: true
+
+autoscaling:
+  enabled: false  # or true if you want to use HPA
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+
+ingress:
+  enabled: false  
+  annotations: {}
+  className: ""
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []

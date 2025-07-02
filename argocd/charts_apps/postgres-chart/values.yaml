@@ -46,10 +46,10 @@ podAnnotations: {}
 # This is for setting Kubernetes Labels to a Pod.
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 podLabels:
-  app.kubernetes.io/name: voting-app
-  app.kubernetes.io/instance: voting
+  app.kubernetes.io/name: db
+  app.kubernetes.io/instance: postgresql
   app.kubernetes.io/version: "v1"
-  app.kubernetes.io/component: frontend
+  app.kubernetes.io/component: db
   app.kubernetes.io/part-of: demo-voting
 labels:
   app: demo-voting-app
