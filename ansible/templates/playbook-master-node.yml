@@ -79,7 +79,6 @@
         group: adminuser
         mode: '0644'
 
-
     - name: Générer et afficher la commande kubeadm join
       command: kubeadm token create --print-join-command
       register: join_command
@@ -91,3 +90,6 @@
         owner: adminuser
         group: adminuser
         mode: '0644'
+
+
+

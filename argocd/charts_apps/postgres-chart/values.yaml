@@ -1,12 +1,16 @@
 postgresql:
   fullnameOverride: my-postgresql
+
   auth:
     username: myuser
     password: mypassword
     database: mydatabase
+
   primary:
     persistence:
       enabled: true
       size: 1Gi
+      storageClass: "azure-disk" 
+
   service:
     type: ClusterIP

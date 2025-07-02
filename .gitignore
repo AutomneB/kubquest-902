@@ -1,3 +1,6 @@
 .terraform
 ssh-key/azukey*
 inventory.ini
+
+
+ansible/templates/vars/azure-vars.yml

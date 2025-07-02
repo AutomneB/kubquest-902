@@ -1,6 +1,7 @@
 - name: deploy application via ArgoCD
   hosts: master
   become: true
+
   tasks:
 
     - name: Créer le namespace ArgoCD

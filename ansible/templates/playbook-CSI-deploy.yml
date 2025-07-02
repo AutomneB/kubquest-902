@@ -1,0 +1,43 @@
+- name: Deploy CSI Azure Disk driver and StorageClass
+  hosts: master
+  become: true
+  vars_files:
+    - azure-vars.yml
+
+  tasks:
+
+    - name: Ajouter le repo Helm Azure Disk CSI
+      community.kubernetes.helm_repository:
+        name: azuredisk-csi-driver
+        repo_url: https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/charts
+
+    - name: Installer le driver Azure Disk CSI via Helm
+      community.kubernetes.helm:
+        name: azuredisk-csi
+        chart_ref: azuredisk-csi-driver/azuredisk-csi-driver
+        release_namespace: kube-system
+        create_namespace: false
+        kubeconfig: /etc/kubernetes/admin.conf
+        values:
+          azureTenantId: "{{ azure_tenant_id }}"
+          azureClientId: "{{ azure_app_id }}"
+          azureClientSecret: "{{ azure_app_secret }}"
+          azureSubscriptionId: "{{ azure_subscription_id }}"
+          cloud: "AzurePublicCloud"
+          linux:
+            enabled: true
+          windows:
+            enabled: false
+
+    - name: Copier le fichier StorageClass azure-disk-sc.yaml sur le master
+      copy:
+        src: ../persistanteVolume/azure-disk-sc.yaml
+        dest: /home/adminuser/azure-disk-sc.yaml
+        owner: adminuser
+        group: adminuser
+        mode: '0644'
+
+    - name: Appliquer le manifest StorageClass azure-disk
+      command: kubectl apply -f /home/adminuser/azure-disk-sc.yaml
+      environment:
+        KUBECONFIG: /etc/kubernetes/admin.conf
