@@ -73,8 +73,8 @@
 
     - name: Copier le dossier ArgoCD dans le master
       copy:
-        src: ../../argocd
-        dest: /home/adminuser/argocd
+        src: ../../argocd/
+        dest: /home/adminuser/argocd/
         owner: adminuser
         group: adminuser
         mode: '0644'
