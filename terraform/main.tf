@@ -30,7 +30,7 @@ provider "azurerm" {
 
 # Création du resource group
 resource "azurerm_resource_group" "rg" {
-  name     = "  "
+  name     = "RG-kubequest1"
   location = "Spain Central"
 }
 
