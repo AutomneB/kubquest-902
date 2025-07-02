@@ -1,5 +1,5 @@
 apiVersion: v2
-name: postgres-chart
+name: basic-postgres-chart
 description: A basic Helm chart using Bitnami PostgreSQL as dependency
 type: application
 version: 0.1.0
