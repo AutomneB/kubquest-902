@@ -1,0 +1,13 @@
+# PostgreSQL Chart
+
+This chart deploys a PostgreSQL database.
+
+## Accessing the database
+
+To get the password for "postgres" user run:
+
+    export POSTGRES_PASSWORD=$(kubectl get secret --namespace default {{ include "basic-postgres-chart.fullname" . }} -o jsonpath="{.data.postgres-password}" | base64 --decode)
+
+To connect to your database run the following command:
+
+    kubectl run {{ include "basic-postgres-chart.fullname" . }}-client --rm --tty -i --restart=Never --namespace default --image=postgres:{{ .Values.image.tag | default .Chart.AppVersion }} -- bash -ilc "psql -h {{ include "basic-postgres-chart.fullname" . }} -U postgres"
