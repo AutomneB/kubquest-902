@@ -63,6 +63,22 @@
       args:
         creates: /usr/local/bin/helm
 
+    - name: Créer le dossier argocd sur le master
+      file:
+        path: /home/adminuser/argocd
+        state: directory
+        owner: adminuser
+        group: adminuser
+        mode: '0755'
+
+    - name: Copier le dossier ArgoCD dans le master
+      copy:
+        src: ../../argocd
+        dest: /home/adminuser/argocd
+        owner: adminuser
+        group: adminuser
+        mode: '0644'
+
 
     - name: Générer et afficher la commande kubeadm join
       command: kubeadm token create --print-join-command
