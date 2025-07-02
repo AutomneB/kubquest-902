@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: teryel/working-app
+  repository: teryel/worker-app
   tag: latest
   pullPolicy: IfNotPresent
 
