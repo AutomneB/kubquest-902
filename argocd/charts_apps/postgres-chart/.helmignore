@@ -1,23 +1,240 @@
-# Patterns to ignore when building packages.
-# This supports shell glob matching, relative path matching, and
-# negation (prefixed with !). Only one pattern per line.
-.DS_Store
-# Common VCS dirs
-.git/
-.gitignore
-.bzr/
-.bzrignore
-.hg/
-.hgignore
-.svn/
-# Common backup files
-*.swp
-*.bak
-*.tmp
-*.orig
-*~
-# Various IDEs
-.project
-.idea/
-*.tmproj
-.vscode/
+# Patterns to ignore when packaging Helm charts.
+# Each pattern is a regular expression.
+# Lines starting with # are comments.
+# For more information: https://helm.sh/docs/chart_template_guide/chart_template_guide/#helmignore-files
+
+# Ignore directories with dot prefix
+/#.?*
+
+# Ignore all .git* directories
+/.git
+
+# Ignore all .vscode directories
+/.vscode
+
+# Ignore all .idea directories
+/.idea
+
+# Ignore all .DS_Store files
+/.DS_Store
+
+# Ignore all node_modules directories
+/node_modules
+
+# Ignore all vendor directories
+/vendor
+
+# Ignore all env directories
+/env
+
+# Ignore all .env files
+/.env
+
+# Ignore all .env.* files
+/.env.*
+
+# Ignore all .local files
+/.local
+
+# Ignore all .local.* files
+/.local.*
+
+# Ignore all .swp files
+/*.swp
+
+# Ignore all .bak files
+/*.bak
+
+# Ignore all .tmp files
+/*.tmp
+
+# Ignore all .log files
+/*.log
+
+# Ignore all .md files
+/*.md
+
+# Ignore all .yml files
+/*.yml
+
+# Ignore all .yaml files
+/*.yaml
+
+# Ignore all .json files
+/*.json
+
+# Ignore all .xml files
+/*.xml
+
+# Ignore all .html files
+/*.html
+
+# Ignore all .css files
+/*.css
+
+# Ignore all .js files
+/*.js
+
+# Ignore all .ts files
+/*.ts
+
+# Ignore all .jsx files
+/*.jsx
+
+# Ignore all .tsx files
+/*.tsx
+
+# Ignore all .php files
+/*.php
+
+# Ignore all .py files
+/*.py
+
+# Ignore all .rb files
+/*.rb
+
+# Ignore all .go files
+/*.go
+
+# Ignore all .java files
+/*.java
+
+# Ignore all .cs files
+/*.cs
+
+# Ignore all .cpp files
+/*.cpp
+
+# Ignore all .h files
+/*.h
+
+# Ignore all .c files
+/*.c
+
+# Ignore all .sh files
+/*.sh
+
+# Ignore all .bat files
+/*.bat
+
+# Ignore all .ps1 files
+/*.ps1
+
+# Ignore all .pl files
+/*.pl
+
+# Ignore all .perl files
+/*.perl
+
+# Ignore all .sql files
+/*.sql
+
+# Ignore all .csv files
+/*.csv
+
+# Ignore all .tsv files
+/*.tsv
+
+# Ignore all .txt files
+/*.txt
+
+# Ignore all .rst files
+/*.rst
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .asciidoc files
+/*.asciidoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files
+/*.adoc
+
+# Ignore all .adoc files

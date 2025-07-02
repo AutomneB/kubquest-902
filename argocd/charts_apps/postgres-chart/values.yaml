@@ -14,28 +14,10 @@ nodeSelector: {}
 tolerations: []
 affinity: {}
 
-podLabels:
-  app.kubernetes.io/name: {{ include "postgres-chart.name" . }}
-  app.kubernetes.io/instance: {{ .Release.Name }}
-
-labels:
-  app: demo-voting-app
-
-# PostgreSQL specific configurations
 postgresql:
   username: postgres
   password: examplepassword
   database: demo_voting
-
-serviceAccount:
-  create: false
-  automount: true
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 80
 
 persistence:
   enabled: true

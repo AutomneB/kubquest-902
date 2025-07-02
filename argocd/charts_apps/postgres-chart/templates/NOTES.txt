@@ -1,13 +1,13 @@
-PostgreSQL has been deployed!
+# PostgreSQL Chart
 
-You can connect to your database using the following command:
+This chart deploys a PostgreSQL database.
 
-  kubectl port-forward svc/{{ include "postgres-chart.fullname" . }} 5432:5432
+## Accessing the database
 
-Then, connect with:
+To get the password for "postgres" user run:
 
-  psql -h localhost -p 5432 -U {{ .Values.postgresql.username }} postgres
+    export POSTGRES_PASSWORD=$(kubectl get secret --namespace default {{ include "basic-postgres-chart.fullname" . }} -o jsonpath="{.data.postgres-password}" | base64 --decode)
 
-To get your pod name:
+To connect to your database run the following command:
 
-  kubectl get pods -l "app={{ include "postgres-chart.name" . }},release={{ .Release.Name }}"
+    kubectl run {{ include "basic-postgres-chart.fullname" . }}-client --rm --tty -i --restart=Never --namespace default --image=postgres:{{ .Values.image.tag | default .Chart.AppVersion }} -- bash -ilc "psql -h {{ include "basic-postgres-chart.fullname" . }} -U postgres"
