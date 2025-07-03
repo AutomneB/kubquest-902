@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/AutomneB/kubquest-902.git'
     targetRevision: ArgoCD
-    path: argocd/charts_apps/frontend*-chart
+    path: argocd/charts_apps/frontend-chart
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: default
