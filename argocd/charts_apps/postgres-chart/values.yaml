@@ -1,10 +1,10 @@
 postgresql:
   fullnameOverride: postgres-service
-
   auth:
-    username: myuser
-    password: mypassword
-    database: mydatabase
+    username: todolist
+    password: todolist123
+    database: todolist
+
 
   primary:
     persistence:
