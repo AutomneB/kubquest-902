@@ -6,9 +6,8 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: NodePort
-  port: 80
-  nodePort: 30080  # ou 80 si autorisé
+  name: voting-service
+  type: ClusterIP
 
 
 resources:

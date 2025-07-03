@@ -1,0 +1,19 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: my-app-ingressroute
+spec:
+  entryPoints:
+    - web
+  voting-route:
+    - match: PathPrefix(`/voting`)
+      kind: Rule
+      services:
+        - name: voting-service
+          port: 9999
+  result-route:
+    - match: PathPrefix(`/result`)
+      kind: Rule
+      services:
+        - name: result-service
+          port: 9999

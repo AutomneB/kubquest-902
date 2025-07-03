@@ -1,5 +1,5 @@
 postgresql:
-  fullnameOverride: my-postgresql
+  fullnameOverride: db
 
   auth:
     username: myuser

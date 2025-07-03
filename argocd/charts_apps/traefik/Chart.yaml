@@ -1,6 +1,7 @@
 apiVersion: v2
-name: stack-902
-version: 0.2.0
+name: traefik-chart
+description: A Helm chart for Traefik, a modern reverse proxy and load balancer
+version: 0.1.0
 
 dependencies:
   - name: traefik

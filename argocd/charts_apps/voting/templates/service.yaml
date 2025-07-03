@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "voting-app.fullname" . }}
+  name: {{ include "voting-app.fullname" . }} -svc
   labels:
     {{- include "voting-app.labels" . | nindent 4 }}
 spec:

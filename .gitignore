@@ -2,4 +2,4 @@
 ssh-key/azukey*
 inventory.ini
 terraform/.terraform.lock.hcl
-ansible/templates/vars/azure-vars.yml
+persistanteVolume/sc-azure.json

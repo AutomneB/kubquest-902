@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/ton-repo.git'
     targetRevision: HEAD
-    path: argocd/charts_apps/traefik-chart
+    path: argocd/charts_apps/traefik
     helm:
       valueFiles:
         - values.yaml

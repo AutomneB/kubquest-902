@@ -6,9 +6,9 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: NodePort
+  name: result-service
+  type: ClusterIP
   port: 80
-  nodePort: 30004
 
 resources: {}
 nodeSelector: {}
