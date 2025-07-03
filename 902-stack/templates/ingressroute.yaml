@@ -1,14 +1,13 @@
-# ingressroute.yaml
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: my-app-ingressroute
-  namespace: default
+  namespace: app-902
 spec:
   entryPoints:
     - web
   routes:
-    - match: PathPrefix(`/end`)
+    - match: PathPrefix(`/app`)
       kind: Rule
       services:
         - name: my-app-service
