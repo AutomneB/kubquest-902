@@ -1,0 +1,6 @@
+apiVersion: v2
+name: todolist-frontend
+description: A simple Helm chart for TodoList Frontend React App
+type: application
+version: 0.1.0
+appVersion: "1.1.1"

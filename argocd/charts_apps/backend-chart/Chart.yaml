@@ -1,0 +1,6 @@
+apiVersion: v2
+name: todolist-backend
+description: A simple Helm chart for TodoList Backend API
+type: application
+version: 0.1.0
+appVersion: "1.1.1"
