@@ -16,7 +16,8 @@ ingress:
   host: todolist.local
 
 env:
-  REACT_APP_API_URL: "http://backend.todolist.cd ../.."
+  REACT_APP_API_URL: "http://todolist-backend-service:3000"
+
 
 resources:
   requests:
