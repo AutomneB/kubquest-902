@@ -36,10 +36,11 @@ resource "azurerm_resource_group" "rg" {
 
 # Variables pour la configuration du cluster
 locals {
-  vm_sizes = {
-    master = "Standard_D2s_v3" # Taille augmentée pour le master
-    worker = "Standard_B1s" # Taille augmentée pour le worker
-  }
+vm_sizes = {
+    master = "Standard_B2s"    # 4 GiB, 2 vCPU
+    worker = "Standard_B1s"    # 4 GiB, 1 vCPU
+}
+
   vm_config = {
     master = {
       name = "vm-kub-master"
