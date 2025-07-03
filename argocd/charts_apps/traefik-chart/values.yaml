@@ -1,0 +1,45 @@
+traefik:
+  dashboard:
+    enabled: true
+  
+  entryPoints:
+    web:
+      address: ":8000"
+    websecure:
+      address: ":8443"
+    metrics:
+      address: ":9090"
+  
+  metrics:
+    prometheus:
+      enabled: true
+      entryPoint: metrics
+  
+  ports:
+    web:
+      port: 8000
+      expose:
+        default: true
+      exposedPort: 8000
+      protocol: TCP
+      nodePort: 31080
+    websecure:
+      port: 8443
+      expose:
+        default: true
+      exposedPort: 8443
+      protocol: TCP
+      nodePort: 31443
+    metrics:
+      port: 9090
+      expose:
+        default: true
+      exposedPort: 9090
+      protocol: TCP
+      nodePort: 31910
+  
+  service:
+    enabled: true
+    type: NodePort
+
+installCRDs: true

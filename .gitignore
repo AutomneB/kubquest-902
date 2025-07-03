@@ -1,5 +1,5 @@
 .terraform
 ssh-key/azukey*
 inventory.ini
-
-persistanteVolume/sc-azure.json
+terraform/.terraform.lock.hcl
+ansible/templates/vars/azure-vars.yml
