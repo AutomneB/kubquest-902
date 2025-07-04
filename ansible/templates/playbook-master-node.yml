@@ -1,15 +1,28 @@
 ### 📘 Playbook Ansible : Kubernetes Master Node Setup (master-playbook.yml)
 
-
-
-
 - name: Init Kubernetes Master Node
-  hosts: master
+  hosts: masters
   become: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
   tasks:
     - name: Montrer sur quel hôte on tourne
       debug:
         msg: "Ce playbook s'exécute sur {{ inventory_hostname }}"
+
+    - name: Installer les dépendances Python pour Kubernetes
+      apt:
+        name:
+          - python3-pip
+        state: present
+        update_cache: true
+
+    - name: Installer les modules Python nécessaires
+      pip:
+        name:
+          - kubernetes
+          - openshift
+          - pyyaml
 
     - name: Initialiser le cluster Kubernetes
       command: kubeadm init --pod-network-cidr=10.244.0.0/16
@@ -41,22 +54,22 @@
       environment:
         KUBECONFIG: /etc/kubernetes/admin.conf
 
-    - name: Créer le dossier app-chart
+    - name: Créer le dossier 902-stack
       file:
-        path: /home/adminuser/app-chart
+        path: /home/adminuser/902-stack
         state: directory
         owner: "adminuser"
         group: "adminuser"
         mode: 0755
 
-    - name: Copier le dossier app-chart vers le master
+    - name: Copier le dossier 902-stack vers le master
       copy:
-        src: ../../app-chart/
-        dest: /home/adminuser/app-chart/
+        src: ../../902-stack/
+        dest: /home/adminuser/902-stack/
         owner: adminuser
         group: adminuser
-        mode: '0755'
-    
+        mode: "0755"
+
     - name: Installer Helm v3.17.2
       shell: |
         curl -LO https://get.helm.sh/helm-v3.17.2-linux-amd64.tar.gz
@@ -66,12 +79,14 @@
       args:
         creates: /usr/local/bin/helm
 
-
-
     - name: Générer et afficher la commande kubeadm join
       command: kubeadm token create --print-join-command
       register: join_command
 
-    - name: Afficher la commande kubeadm join
-      debug:
-        msg: "{{ join_command.stdout }}"
+    - name: Sauvegarder la commande kubeadm join dans un fichier partagé
+      copy:
+        dest: /home/adminuser/join-command.txt
+        content: "{{ join_command.stdout }}"
+        owner: adminuser
+        group: adminuser
+        mode: "0644"

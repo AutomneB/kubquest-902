@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: 902-stack-maeva
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/AutomneB/kubquest-902.git
+    targetRevision: maeva-argocd
+    path: 902-stack
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: 902-app-maeva
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

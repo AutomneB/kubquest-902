@@ -19,10 +19,10 @@ resource "local_file" "ansible_inventory" {
   content  = <<EOT
 
 [k8s_nodes:children]
-master
+masters
 workers
 
-[master]
+[masters]
 master ansible_host=${azurerm_linux_virtual_machine.master.public_ip_address} ansible_user=${var.instance_username} ansible_ssh_private_key_file=${local_file.ssh_private_key.filename}
 
 [workers]
@@ -46,4 +46,31 @@ Host k8s-master
 EOT
 
   depends_on = [local_file.ssh_private_key]
+}
+
+resource "local_file" "run_playbook" {
+  filename = "${path.module}/run-playbook.sh"
+  content  = <<-EOT
+    #!/bin/sh
+
+    #Playbook nodes
+    ansible-playbook -i inventory.ini ../ansible/templates/playbook-kubernetes-basic.yml --ssh-extra-args='-o StrictHostKeyChecking=no'
+
+
+    #playbook Master
+    ansible-playbook -i inventory.ini ../ansible/templates/playbook-master-node.yml --ssh-extra-args='-o StrictHostKeyChecking=no'
+
+
+    #playbook Worker
+    ansible-playbook -i inventory.ini ../ansible/templates/playbook-worker-node.yml --ssh-extra-args='-o StrictHostKeyChecking=no'
+
+
+    #Deploy application
+    ansible-playbook -i inventory.ini ../ansible/templates/playbook-argocd-deploy.yml --ssh-extra-args='-o StrictHostKeyChecking=no'
+
+    # Deploy Prometheus
+    ansible-playbook -i inventory.ini ../ansible/templates/playbook-prometheus-deploy.yml --ssh-extra-args='-o StrictHostKeyChecking=no'
+
+  EOT
+  file_permission = "0755"
 }

@@ -1,0 +1,7 @@
+apiVersion: v2
+name: redis-902
+version: 0.1.0
+dependencies:
+  - name: redis
+    version: 18.3.2
+    repository: https://charts.bitnami.com/bitnami

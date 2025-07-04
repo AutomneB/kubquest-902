@@ -1,3 +1,5 @@
 .terraform
 ssh-key/azukey*
 inventory.ini
+run-playbook.sh
+Chart.lock
