@@ -4,8 +4,7 @@ metadata:
   name: traefik-stack
   namespace: argocd
 spec:
-  project: default
-  source:
+  project
     repoURL: 'https://github.com/ton-repo.git'
     targetRevision: ArgoCD
     path: argocd/charts_apps/traefik
@@ -21,3 +20,5 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+: default
+  source:

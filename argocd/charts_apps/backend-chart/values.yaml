@@ -1,6 +1,5 @@
 # Default values for todolist-backend
-replicaCount: 2
-
+replicaCount: 1
 image:
   repository: soymustael/todolist-kub-backend
   tag: "1.1.1"

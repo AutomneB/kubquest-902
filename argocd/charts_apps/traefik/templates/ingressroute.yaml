@@ -1,0 +1,13 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: my-app-ingressroute
+spec:
+  entryPoints:
+    - web
+  voting-route:
+    - match: PathPrefix(`/front`)
+      kind: Rule
+      services:
+        - name: backend.todolist
+          port: 3000
